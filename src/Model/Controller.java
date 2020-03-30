@@ -84,6 +84,7 @@ public class Controller {
 
     private void seeMenucard(){
         System.out.println("Se menukort");
+
         //TODO: Print arraylist med tilgængelige pizzzaer
         System.out.println(menucard.getMenu());
         selectMenu();

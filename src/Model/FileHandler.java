@@ -1,5 +1,5 @@
 /*
-@author Andreas Bergmann (frækfyr@cphbusiness.dk)
+@author Andreas Bergmann (cph-ab435@cphbusiness.dk)
  */
 package Model;
 
@@ -48,7 +48,7 @@ public class FileHandler {
 
       try{
           buffwriter = new BufferedWriter(new FileWriter(new File("Data/EkportedFiles.txt")));
-          buffwriter.write(String.valueOf(orders));//TODO: hvad skal jeg gøre for at få vores orders ud?
+          buffwriter.write(String.valueOf(orders));
           System.out.println("Write to file done");
       }catch(FileNotFoundException e){
           System.out.println("File not found!");

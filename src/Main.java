@@ -1,7 +1,7 @@
 /*
 @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
 @author Mohammed Hadra (frækfyr@cphbusiness.dk)
-@author Andreas Bergmann (frækfyr@cphbusiness.dk)
+@author Andreas Bergmann (cph-ab435@cphbusiness.dk)
 @author Jacob Lange Nielsen (frækfyr@cphbusiness.dk)
  */
 import Model.Controller;

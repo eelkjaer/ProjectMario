@@ -1,17 +1,17 @@
 [
 Ordre 202001
 In store: false
-Klar tid: 22:14
+Klar tid: 22:24
 Kunde: null
 Pizzaer: []
-Pris: 167,00 kr
+Pris: 173,00 kr
 Kommentar: None
 , 
 Ordre 202002
 In store: false
-Klar tid: 22:15
+Klar tid: 22:30
 Kunde: null
 Pizzaer: []
-Pris: 57,00 kr
+Pris: 238,00 kr
 Kommentar: None
 ]
