@@ -2,6 +2,7 @@
 @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
  */
 package Model;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Controller {
@@ -9,8 +10,9 @@ public class Controller {
     private ArrayList<Pizza> pizzas = new ArrayList<>();
     private ArrayList<Ordre> orders = new ArrayList<>();
     private View view = new View();
+    private FileHandler fh = new FileHandler("Data/Exported.txt");
 
-    public Controller(){
+    public Controller() throws FileNotFoundException {
 
     };
 
@@ -135,6 +137,7 @@ public class Controller {
         System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
 
         selectMenu();
+        fh.fileWriter();
 
         //TODO: Eksporter ordre til csv fil.
     }

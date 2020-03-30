@@ -24,12 +24,12 @@ public class FileHandler {
                 String[] lineArr = line.split(";");
 
                 try{
-                    int idNumber = Integer.parseInt(lineArr[0]);
+                    int id = Integer.parseInt(lineArr[0]);
                     String name = lineArr[1];
-                    double pris = Double.parseDouble(lineArr[2]);
+                    double price = Double.parseDouble(lineArr[2]);
                     String[] fillings = lineArr[3].split(",");
 
-                    Pizza tmpPizza = new Pizza(idNumber, name, pris, fillings);
+                    Pizza tmpPizza = new Pizza(id);
                     pizza.add(tmpPizza);
                 }catch (Exception e){
                     System.out.println("Fejl ved linje " + lNum + ":");
