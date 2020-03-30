@@ -29,7 +29,7 @@ public class FileHandler {
                     double price = Double.parseDouble(lineArr[2]);
                     String[] fillings = lineArr[3].split(",");
 
-                    Pizza tmpPizza = new Pizza(id);
+                    Pizza tmpPizza = new Pizza(id, name, price, fillings);
                     pizza.add(tmpPizza);
                 }catch (Exception e){
                     System.out.println("Fejl ved linje " + lNum + ":");
