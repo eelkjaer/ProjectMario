@@ -31,10 +31,11 @@ public class Ordre {
     }
 
     public double calculatePrice(ArrayList<Pizza> pizzas){
+        double totalPrice = 0.0;
         for(Pizza p:pizzas){
-            //TODO: Sum price of array
+            totalPrice += p.getPrice();
         }
-        return 133.7;
+        return totalPrice;
     }
 
     public LocalDateTime calculateTime(boolean inStore){
@@ -59,10 +60,10 @@ public class Ordre {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
         return "\nOrdre " + orderNumber
                 + "\nIn store: " + inStore
-                + "\n Klar tid: " + timestamp.format(format)
+                + "\nKlar tid: " + timestamp.format(format)
                 + "\nKunde: " + customer
                 + "\nPizzaer: " + pizzas
-                + "\nPris: " + price
+                + "\nPris: " + String.format("%.2f kr",price)
                 + "\nKommentar: " + comment
                 + "\n";
     }

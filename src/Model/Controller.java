@@ -18,14 +18,17 @@ public class Controller {
         ArrayList<Pizza> tmpPizza = new ArrayList<>();
         tmpPizza.add(new Pizza(1));
         tmpPizza.add(new Pizza(2));
+        tmpPizza.add(new Pizza(3));
+        tmpPizza.add(new Pizza(4));
 
         //Laver test ordre;
         Ordre ordre1 = new Ordre(true,null,tmpPizza,"Ordre 1");
-        Ordre ordre2 = new Ordre(true,null,tmpPizza,"Ordre 2");
+        Ordre ordre2 = new Ordre(false,null,tmpPizza,"Ordre 2");
+        tmpPizza.remove(3);
         Ordre ordre3 = new Ordre(false,null,tmpPizza,"Ordre 3");
 
         //Sætter ordre som afhentet/færdige
-        ordre3.isDone = true;
+        ordre2.isDone = true;
 
         //Sætter ordre i array
         orders.add(ordre1);
@@ -57,17 +60,22 @@ public class Controller {
             case 5:
                 generateStats();
                 break;
+            case 6:
+                System.exit(0);
             default:
                 selectMenu();
         }
     }
 
     private void printMainMenu(){
+        System.out.println("#####################");
         System.out.println("1) Se menu");
         System.out.println("2) Opret ordre");
-        System.out.println("3) Ændre ordre");
+        System.out.println("3) Luk ordre");
         System.out.println("4) Se ordre");
         System.out.println("5) Se statistik");
+        System.out.println("6) Afslut system");
+        System.out.println("#####################");
     }
 
     private void seeMenucard(){
@@ -88,10 +96,20 @@ public class Controller {
         }
         Ordre tmpOrder = new Ordre(false,null,pizzas,"None");
         System.out.println(tmpOrder);
+
+        selectMenu();
     }
 
     private void changeOrder(){
         int ordrenummer = view.intInput("Indtast ordrenummmer");
+
+        for(Ordre o:orders){
+            if(o.orderNumber==ordrenummer){
+                o.setDone(true);
+            }
+        }
+
+        selectMenu();
 
         //TODO: Check om ordre eksisterer i arraylisten
 
@@ -104,10 +122,20 @@ public class Controller {
                 System.out.println(o);
             }
         }
+        selectMenu();
     }
 
     private void generateStats(){
         System.out.println("Se statistik");
+        double totalRev = 0.0;
+
+        for(Ordre o:orders){
+            totalRev += o.price;
+        }
+        System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
+
+        selectMenu();
+
         //TODO: Eksporter ordre til csv fil.
     }
 
