@@ -1,7 +1,8 @@
+import Model.Controller;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        System.out.println("test");
+        Controller controller = new Controller();
+        controller.runApplication();
     }
 }
