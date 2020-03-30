@@ -10,7 +10,6 @@ public class Controller {
     private FileHandler fh = new FileHandler();
     private ArrayList<Pizza> pizzas = new ArrayList<>();
     private ArrayList<Ordre> orders = new ArrayList<>();
-    //private ArrayList<Pizza> menu = new ArrayList<>();
     private View view = new View();
     private Menucard menucard = new Menucard();
 
@@ -108,6 +107,10 @@ public class Controller {
         orders.add(tmpOrder);
         System.out.println(tmpOrder);
         pizzas.clear();
+
+
+        //TEST
+        fh.fileWriter(orders);
 
         selectMenu();
     }

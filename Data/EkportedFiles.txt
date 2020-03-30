@@ -1,1 +1,17 @@
-[]
+[
+Ordre 202001
+In store: false
+Klar tid: 22:14
+Kunde: null
+Pizzaer: []
+Pris: 167,00 kr
+Kommentar: None
+, 
+Ordre 202002
+In store: false
+Klar tid: 22:15
+Kunde: null
+Pizzaer: []
+Pris: 57,00 kr
+Kommentar: None
+]

@@ -1,3 +1,6 @@
+/*
+@author Jacob Lange Nielsen (frækfyr@cphbusiness.dk)
+ */
 package Model;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

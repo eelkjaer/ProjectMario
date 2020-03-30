@@ -1,3 +1,6 @@
+/*
+@author Andreas Bergmann (frækfyr@cphbusiness.dk)
+ */
 package Model;
 
 import java.io.*;
@@ -38,12 +41,8 @@ public class FileHandler {
         }
         return tmpPizzas;
     }
-    public ArrayList<Pizza> getPizza(){
-        return tmpPizzas;
-    }
 
-    public void fileWriter(){
-        ArrayList<Ordre> orders = new ArrayList<>();
+    public void fileWriter(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;
 
 
