@@ -3,48 +3,34 @@ package Model;
 import java.util.Arrays;
 
 public class Pizza {
-    int id;
-    String name;
-    double price;
-    String[] fillings;
+    private int number;
+    private String name;
+    private double price;
+    private String[] filling;
 
-    public Pizza(int id, String name, double price,String[] fillings){
-        this.id = id;
+    public Pizza(int number, String name, double price, String[] filling){
+        this.number = number;
         this.name = name;
         this.price = price;
-        this.fillings = fillings;
+        this.filling = filling;
 
-    }
-
-    @Override
-    public String toString() {
-        return "Pizza{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", fillings=" + Arrays.toString(this.fillings) +
-                '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public String[] getFillings() {
-        return fillings;
+    public String getName() {
+        return name;
     }
 
-    public String[] setFillings(String[] fillings) {
-        fillings = new String[]{"tomatsauce","ost","skinke","oregano","oksefars","pepperoni","kødsauce","spaghetti","cocktailpølser","bacon","rød peber","løg","oliven","ananas","champignon","kebab","chili","rejer"};
-        return fillings;
-
+    @Override
+    public String toString() {
+        return "\nPizza{"
+                + "\nnumber=" + number
+                + "\nname=" + name
+                + "\nprice=" + price
+                + "\nfilling=" + Arrays.toString(filling)
+                + "\n}";
     }
 }

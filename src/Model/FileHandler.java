@@ -1,18 +1,16 @@
 package Model;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//id;navn;pris;fyld
+//1;Vesuvio;57;tomatsauce,ost,skinke,oregano
+
 public class FileHandler {
-    protected ArrayList<Pizza> pizza = new ArrayList<>();
+    protected ArrayList<Pizza> tmpPizzas = new ArrayList<>();
 
-    public FileHandler(String fileapth) throws FileNotFoundException {
-        fileHandler(fileapth);
-    }
-
-    private ArrayList<Pizza> fileHandler(String filePath) throws FileNotFoundException{
+    public ArrayList<Pizza> readMenuFromFile(String filePath) throws FileNotFoundException{
         File fh = new File(filePath);
         int lNum = 0;
         if (fh.exists()){
@@ -29,19 +27,19 @@ public class FileHandler {
                     double price = Double.parseDouble(lineArr[2]);
                     String[] fillings = lineArr[3].split(",");
 
-                    Pizza tmpPizza = new Pizza(id, name, price, fillings);
-                    pizza.add(tmpPizza);
-                }catch (Exception e){
+                    Pizza tmpPizza = new Pizza(id,name,price,fillings);
+                    tmpPizzas.add(tmpPizza);
+                } catch (Exception e){
                     System.out.println("Fejl ved linje " + lNum + ":");
                     System.out.println(line);
 
                 }
             }
         }
-        return pizza;
+        return tmpPizzas;
     }
     public ArrayList<Pizza> getPizza(){
-        return pizza;
+        return tmpPizzas;
     }
 
     public void fileWriter(){

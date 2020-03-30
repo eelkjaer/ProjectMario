@@ -7,16 +7,18 @@ import java.util.ArrayList;
 
 public class Controller {
     private int menuSelect;
+    private FileHandler fh = new FileHandler();
     private ArrayList<Pizza> pizzas = new ArrayList<>();
     private ArrayList<Ordre> orders = new ArrayList<>();
+    //private ArrayList<Pizza> menu = new ArrayList<>();
     private View view = new View();
-    private FileHandler fh = new FileHandler("Data/Exported.txt");
+    private Menucard menucard = new Menucard();
 
-    public Controller() throws FileNotFoundException {
+    public Controller() {
 
     };
 
-    private void test(){
+    /*private void test(){
         ArrayList<Pizza> tmpPizza = new ArrayList<>();
         tmpPizza.add(new Pizza(1));
         tmpPizza.add(new Pizza(2));
@@ -36,12 +38,13 @@ public class Controller {
         orders.add(ordre1);
         orders.add(ordre2);
         orders.add(ordre3);
-    }
+    }*/
 
-    public void runApplication(){
-        test();
+    public void runApplication() throws FileNotFoundException {
+        menucard.createMenucard("Data/menu.csv");
         selectMenu();
     }
+
 
     private void selectMenu(){
         printMainMenu();
@@ -83,21 +86,28 @@ public class Controller {
     private void seeMenucard(){
         System.out.println("Se menukort");
         //TODO: Print arraylist med tilgængelige pizzzaer
+        System.out.println(menucard.getMenu());
+        selectMenu();
     }
 
     private void newOrder(){
         System.out.println("Indtast ønskede pizza nummer. Afsluttes med 0");
+        System.out.println(menucard.getMenu().size());
         boolean ispizza = true;
         while(ispizza){
-            int pizza = view.intInput("Pizza nr");
-            if(pizza == 0){
+            int number = view.intInput("Pizza nr");
+            if(number == 0){
                 ispizza = false;
-            } else {
-                pizzas.add(new Pizza(pizza));
+            } else if (number > menucard.getMenu().size()) {
+                System.out.println("Det indtastede nummer eksisterer ikke!");
+            } else{
+                pizzas.add(menucard.getMenu().get(number-1));
             }
         }
         Ordre tmpOrder = new Ordre(false,null,pizzas,"None");
+        orders.add(tmpOrder);
         System.out.println(tmpOrder);
+        pizzas.clear();
 
         selectMenu();
     }
@@ -119,9 +129,13 @@ public class Controller {
 
     private void getOrders(){
         System.out.println("Se ordre");
-        for(Ordre o:orders){
-            if(!o.isDone){
-                System.out.println(o);
+        if(orders.isEmpty() || orders == null || orders.size() == 0){
+            System.out.println("Der er ingen åbne bestillinger!");
+        } else {
+            for(Ordre o:orders){
+                if(!o.isDone){
+                    System.out.println(o);
+                }
             }
         }
         selectMenu();
@@ -137,7 +151,6 @@ public class Controller {
         System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
 
         selectMenu();
-        fh.fileWriter();
 
         //TODO: Eksporter ordre til csv fil.
     }
