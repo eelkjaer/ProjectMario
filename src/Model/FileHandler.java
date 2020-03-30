@@ -1,13 +1,12 @@
 package Model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileHandler {
     protected ArrayList<Pizza> pizza = new ArrayList<>();
-    protected ArrayList<Order> orders = new ArrayList<>();
 
     public FileHandler(String fileapth) throws FileNotFoundException {
         fileHandler(fileapth);
@@ -45,8 +44,30 @@ public class FileHandler {
         return pizza;
     }
 
-    private ArrayList<Ordre> fileWriter(){
-        
+    public void fileWriter(){
+        ArrayList<Ordre> orders = new ArrayList<>();
+        BufferedWriter buffwriter = null;
+
+
+      try{
+          buffwriter = new BufferedWriter(new FileWriter(new File("Data/EkportedFiles.txt")));
+          buffwriter.write(String.valueOf(orders));//TODO: hvad skal jeg gøre for at få vores orders ud?
+          System.out.println("Write to file done");
+      }catch(FileNotFoundException e){
+          System.out.println("File not found!");
+      }catch(IOException e){
+          System.out.println("Error" + e.toString());
+        }
+      finally{
+          try{
+              if(buffwriter != null){
+                buffwriter.close();
+              }
+          }catch(IOException e){
+              System.out.println("IEO Error" + e.toString());
+          }
+      }
 
     }
+
 }
