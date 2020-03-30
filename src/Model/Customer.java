@@ -53,9 +53,9 @@ public class Customer {
     //Construktor
 
     public Customer(String name, int phoneNo, String mail, int customerNo, int prevOrder) {
-        Name = name;
+        this.Name = name;
         this.phoneNo = phoneNo;
-        Mail = mail;
+        this.Mail = mail;
         this.customerNo = customerNo;
         this.prevOrder = prevOrder;
     }
