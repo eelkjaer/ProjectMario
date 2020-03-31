@@ -1,11 +1,15 @@
 /*
 @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
  */
-package Model;
+package Controller;
+import Model.*;
+import View.View;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class Controller {
+public class MainController {
     private int menuSelect;
     private FileHandler fh = new FileHandler();
     private ArrayList<Ordre> orders = new ArrayList<>();
@@ -13,9 +17,9 @@ public class Controller {
     private View view = new View();
     private Menucard menucard = new Menucard();
 
-    public Controller() throws FileNotFoundException {
+    public MainController() {
 
-    };
+    }
 
 
     public void runApplication() throws FileNotFoundException {
@@ -141,7 +145,7 @@ public class Controller {
         int ordrenummer = view.intInput("Indtast ordrenummmer");
 
         for(Ordre o:orders){
-            if(o.orderNumber==ordrenummer){
+            if(o.getOrderNumber()==ordrenummer){
                 o.setDone(true);
             }
         }
@@ -155,7 +159,7 @@ public class Controller {
             System.out.println("Der er ingen åbne bestillinger!");
         } else {
             for(Ordre o:orders){
-                if(!o.isDone){
+                if(!o.isDone()){
                     System.out.println(o);
                 }
             }
@@ -168,9 +172,20 @@ public class Controller {
         double totalRev = 0.0;
 
         for(Ordre o:orders){
-            totalRev += o.price;
+            totalRev += o.getPrice();
         }
         System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
+
+        int occurrences = 0;
+
+        
+
+        for(Ordre o:orders){
+            occurrences = Collections.frequency(o.getPizzas(), "Cabona");
+            
+        }
+
+        System.out.println("count: " + occurrences);
 
         selectMenu();
 

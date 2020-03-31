@@ -1,7 +1,11 @@
 /*
 @author Andreas Bergmann (cph-ab435@cphbusiness.dk)
  */
-package Model;
+package Controller;
+
+import Model.Customer;
+import Model.Ordre;
+import Model.Pizza;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -94,11 +98,11 @@ public class FileHandler {
                 buffwriter.write(str);
                 buffwriter.newLine();
             }
-            System.out.println("Write to file done");
+            //System.out.println("Write to file done");
         }catch(FileNotFoundException e){
-            System.out.println("File not found!");
+            //System.out.println("File not found!");
         }catch(IOException e){
-            System.out.println("Error" + e.toString());
+            //System.out.println("Error" + e.toString());
         }
         finally{
             try{
@@ -106,7 +110,7 @@ public class FileHandler {
                     buffwriter.close();
                 }
             }catch(IOException e){
-                System.out.println("IEO Error" + e.toString());
+                //System.out.println("IEO Error" + e.toString());
             }
         }
 
@@ -116,7 +120,7 @@ public class FileHandler {
         BufferedWriter buffwriter = null;
         LocalDate ldt = LocalDate.now();
         String fileName = ldt.toString() + "-ordre.csv";
-        String filePath = "Data/";
+        String filePath = "Export/";
 
 
       try{
