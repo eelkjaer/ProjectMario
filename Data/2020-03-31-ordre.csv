@@ -1,21 +1,39 @@
 [
 Ordre 202001
 In store: false
-Klar tid: 12:17
-Kunde: Customer{Name='Jacob', phoneNo=23234141, Mail='kanikke@huske.nu', prevOrder=1}
+Klar tid: 13:40
+Kunde: Customer{Name='Andreas Bergmann', phoneNo=22338114, Mail='', prevOrder=1}
 Pizzaer: [
 Pizza{
-number=6
-name=Bertil
+number=3
+name=Cacciatore
 price=57.0
-filling=[tomatsauce, ost, bacon, oregano]
+filling=[tomatsauce, ost, pepperoni, oregano]
 }, 
 Pizza{
-number=7
-name=Silvia
-price=61.0
-filling=[tomatsauce, ost, pepperoni, rød peber, løg, oliven, oregano]
+number=4
+name=Cabona
+price=63.0
+filling=[tomatsauce, ost, kødsauce, spaghetti, cocktailpølser, oregano]
+}, 
+Pizza{
+number=1
+name=Vesuvio
+price=57.0
+filling=[tomatsauce, ost, skinke, oregano]
+}, 
+Pizza{
+number=2
+name=Amerikaner
+price=53.0
+filling=[tomatsauce, ost, oksefars, oregano]
+}, 
+Pizza{
+number=5
+name=Dennis
+price=65.0
+filling=[tomatsauce, ost, skinke, pepperoni, cocktailpølser, oregano]
 }]
-Pris: 118,00 kr
+Pris: 295,00 kr
 Kommentar: Ingen bemærkninger
 ]
