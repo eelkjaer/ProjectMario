@@ -33,8 +33,8 @@ public class FileHandler {
                     Pizza tmpPizza = new Pizza(id,name,price,fillings);
                     tmpPizzas.add(tmpPizza);
                 } catch (Exception e){
-                    System.out.println("Fejl ved linje " + lNum + ":");
-                    System.out.println(line);
+                    //System.out.println("Fejl ved linje " + lNum + ":");
+                    //System.out.println(line);
 
                 }
             }
@@ -49,11 +49,11 @@ public class FileHandler {
       try{
           buffwriter = new BufferedWriter(new FileWriter(new File("Data/EkportedFiles.txt")));
           buffwriter.write(String.valueOf(orders));
-          System.out.println("Write to file done");
+          //System.out.println("Write to file done");
       }catch(FileNotFoundException e){
-          System.out.println("File not found!");
+          //System.out.println("File not found!");
       }catch(IOException e){
-          System.out.println("Error" + e.toString());
+          //System.out.println("Error" + e.toString());
         }
       finally{
           try{
@@ -61,7 +61,7 @@ public class FileHandler {
                 buffwriter.close();
               }
           }catch(IOException e){
-              System.out.println("IEO Error" + e.toString());
+              //System.out.println("IEO Error" + e.toString());
           }
       }
 

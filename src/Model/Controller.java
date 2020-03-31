@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Controller {
     private int menuSelect;
     private FileHandler fh = new FileHandler();
-    private ArrayList<Pizza> pizzas = new ArrayList<>();
     private ArrayList<Ordre> orders = new ArrayList<>();
     private View view = new View();
     private Menucard menucard = new Menucard();
@@ -69,6 +68,7 @@ public class Controller {
     }
 
     private void newOrder(){
+        ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
         System.out.println("## Ny ordre ##");
         System.out.println("Indtast ønskede pizza nummer. Afsluttes med 0");
         boolean ispizza = true;
@@ -79,7 +79,7 @@ public class Controller {
             } else if (number > menucard.getMenu().size()) {
                 System.out.println("Det indtastede nummer eksisterer ikke!");
             } else{
-                pizzas.add(menucard.getMenu().get(number-1));
+                tmpPizzaList.add(menucard.getMenu().get(number-1));
             }
         }
         String cName = view.strInput("Indtast kundenavn");
@@ -88,11 +88,10 @@ public class Controller {
 
         Customer tmpCust = new Customer(cName,cNum,cMail);
 
-        Ordre tmpOrder = new Ordre(false,tmpCust,pizzas,"None");
+        Ordre tmpOrder = new Ordre(false,tmpCust,tmpPizzaList,"None");
 
         orders.add(tmpOrder);
         System.out.println(tmpOrder);
-        pizzas.clear();
 
         fh.fileWriter(orders);
 

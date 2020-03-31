@@ -8,7 +8,7 @@ public class Customer {
     private String Name;
     private int phoneNo;
     private String Mail;
-    private static int prevOrder = 0;
+    private int prevOrder = 0;
 
     //Construktor
 
