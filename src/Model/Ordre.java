@@ -67,9 +67,6 @@ public class Ordre {
         return pizzas;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
     public String getComment() {
         return comment;
@@ -81,6 +78,10 @@ public class Ordre {
 
     public void setDone(boolean done) {
         isDone = done;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     @Override
