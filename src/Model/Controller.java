@@ -109,8 +109,6 @@ public class Controller {
         System.out.println(tmpOrder);
         pizzas.clear();
 
-
-        //TEST
         fh.fileWriter(orders);
 
         selectMenu();

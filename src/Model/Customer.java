@@ -1,3 +1,6 @@
+/*
+@author Mohammed Hadra (frækfyr@cphbusiness.dk)
+ */
 package Model;
 
 public class Customer {
