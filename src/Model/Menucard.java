@@ -1,5 +1,5 @@
 /*
-@author Jacob Lange Nielsen (frækfyr@cphbusiness.dk)
+@author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
 package Model;
 import java.io.FileNotFoundException;
