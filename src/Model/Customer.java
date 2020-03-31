@@ -41,6 +41,14 @@ public class Customer {
         return prevOrder;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
     public void addNewOrder() {
         this.prevOrder++;
     }

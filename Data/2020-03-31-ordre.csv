@@ -1,21 +1,21 @@
 [
 Ordre 202001
 In store: false
-Klar tid: 11:50
-Kunde: Customer{Name='Emil Elkjær', phoneNo=60146057, Mail='cph-en93@cphbusiness.dk', prevOrder=5}
+Klar tid: 12:17
+Kunde: Customer{Name='Jacob', phoneNo=23234141, Mail='kanikke@huske.nu', prevOrder=1}
 Pizzaer: [
 Pizza{
-number=2
-name=Amerikaner
-price=53.0
-filling=[tomatsauce, ost, oksefars, oregano]
+number=6
+name=Bertil
+price=57.0
+filling=[tomatsauce, ost, bacon, oregano]
 }, 
 Pizza{
-number=3
-name=Cacciatore
-price=57.0
-filling=[tomatsauce, ost, pepperoni, oregano]
+number=7
+name=Silvia
+price=61.0
+filling=[tomatsauce, ost, pepperoni, rød peber, løg, oliven, oregano]
 }]
-Pris: 110,00 kr
+Pris: 118,00 kr
 Kommentar: Ingen bemærkninger
 ]

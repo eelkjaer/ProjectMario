@@ -85,9 +85,28 @@ public class Controller {
                 tmpPizzaList.add(menucard.getMenu().get(number-1));
             }
         }
-        String cName = view.strInput("Indtast kundenavn");
-        int cNum = view.intInput("Indtast tlf");
-        String cMail = view.strInput("Indtast mail");
+
+        int cNum = view.intInput("Indtast kundenummer (Tlf)");
+
+        Customer tmpCust = null;
+        for(Customer c: customers){
+            if(c.getPhoneNo() == cNum){
+                System.out.println("Kunde eksisterer allerede: " + c.getName());
+                tmpCust = c;
+                tmpCust.addNewOrder();
+                fh.saveCustomersToFile(customers);
+                break;
+            } else {
+                System.out.println("Kunde eksisterede ikke.");
+                String cName = view.strInput("Indtast kundenavn");
+                String cMail = view.strInput("Indtast mail");
+                tmpCust = new Customer(cName,cNum,cMail);
+                customers.add(tmpCust);
+                fh.saveCustomersToFile(customers);
+                break;
+            }
+        }
+
 
         String orderComment = view.strInput("Bemærkning til ordren (tom hvis ingen)");
 
@@ -105,18 +124,6 @@ public class Controller {
                 inStore = false;
             }
 
-            Customer tmpCust = null;
-            for(Customer c: customers){
-                if(c.getPhoneNo() == cNum){
-                    System.out.println("Kunde eksisterer allerede: " + cName);
-                    tmpCust = c;
-                    tmpCust.addNewOrder();
-                } else {
-                    System.out.println("Kunde eksisterede ikke.");
-                    tmpCust = new Customer(cName,cNum,cMail);
-                    customers.add(tmpCust);
-                }
-            }
 
         Ordre tmpOrder = new Ordre(false,tmpCust,tmpPizzaList,orderComment);
 
@@ -138,10 +145,7 @@ public class Controller {
                 o.setDone(true);
             }
         }
-
         selectMenu();
-
-        //TODO: Check om ordre eksisterer i arraylisten
 
     }
 
