@@ -1,17 +1,9 @@
 [
 Ordre 202001
 In store: false
-Klar tid: 22:24
-Kunde: null
+Klar tid: 10:15
+Kunde: Customer{Name='Emil', phoneNo=60146057, Mail='emil@vta.dk', prevOrder=1}
 Pizzaer: []
-Pris: 173,00 kr
-Kommentar: None
-, 
-Ordre 202002
-In store: false
-Klar tid: 22:30
-Kunde: null
-Pizzaer: []
-Pris: 238,00 kr
+Pris: 110,00 kr
 Kommentar: None
 ]

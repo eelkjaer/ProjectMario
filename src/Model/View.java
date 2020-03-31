@@ -15,7 +15,9 @@ public class View {
 
     protected String strInput(String inputRequired){
         System.out.print("\n" + inputRequired + ": ");
-        return input.nextLine();
+        input.nextLine();
+        String str = input.nextLine();
+        return str;
     }
 
     protected double doubleInput(String inputRequired){

@@ -1,5 +1,5 @@
 /*
-@author Mohammed Hadra (frækfyr@cphbusiness.dk)
+@author Mohammed Hadra (cph-mh879@cphbusiness.dk)
  */
 package Model;
 
@@ -8,8 +8,16 @@ public class Customer {
     private String Name;
     private int phoneNo;
     private String Mail;
-    private int customerNo;
-    private int prevOrder;
+    private static int prevOrder = 0;
+
+    //Construktor
+
+    public Customer(String name, int phoneNo, String mail) {
+        this.Name = name;
+        this.phoneNo = phoneNo;
+        this.Mail = mail;
+        this.prevOrder++;
+    }
 
     //Getter and Setter
 
@@ -37,29 +45,11 @@ public class Customer {
         Mail = mail;
     }
 
-    public int getCustomerNo() {
-        return customerNo;
-    }
-
-    public void setCustomerNo(int customerNo) {
-        this.customerNo = customerNo;
-    }
-
     public int getPrevOrder() {
         return prevOrder;
     }
 
     public void setPrevOrder(int prevOrder) {
-        this.prevOrder = prevOrder;
-    }
-
-    //Construktor
-
-    public Customer(String name, int phoneNo, String mail, int customerNo, int prevOrder) {
-        this.Name = name;
-        this.phoneNo = phoneNo;
-        this.Mail = mail;
-        this.customerNo = customerNo;
         this.prevOrder = prevOrder;
     }
 
@@ -71,7 +61,6 @@ public class Customer {
                 "Name='" + Name + '\'' +
                 ", phoneNo=" + phoneNo +
                 ", Mail='" + Mail + '\'' +
-                ", customerNo=" + customerNo +
                 ", prevOrder=" + prevOrder +
                 '}';
     }
