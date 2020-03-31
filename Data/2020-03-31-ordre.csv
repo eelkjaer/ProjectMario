@@ -1,9 +1,15 @@
 [
 Ordre 202001
 In store: false
-Klar tid: 10:42
+Klar tid: 10:58
 Kunde: Customer{Name='Emil', phoneNo=60146057, Mail='emil@vta.dk', prevOrder=1}
 Pizzaer: [
+Pizza{
+number=2
+name=Amerikaner
+price=53.0
+filling=[tomatsauce, ost, oksefars, oregano]
+}, 
 Pizza{
 number=3
 name=Cacciatore
@@ -16,6 +22,6 @@ name=Cabona
 price=63.0
 filling=[tomatsauce, ost, kødsauce, spaghetti, cocktailpølser, oregano]
 }]
-Pris: 120,00 kr
+Pris: 173,00 kr
 Kommentar: None
 ]

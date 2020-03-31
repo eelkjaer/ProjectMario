@@ -4,6 +4,7 @@
 package Model;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,10 +45,13 @@ public class FileHandler {
 
     public void fileWriter(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;
+        LocalDate ldt = LocalDate.now();
+        String fileName = ldt.toString() + "-ordre.csv";
+        String filePath = "Data/";
 
 
       try{
-          buffwriter = new BufferedWriter(new FileWriter(new File("Data/EkportedFiles.txt")));
+          buffwriter = new BufferedWriter(new FileWriter(new File(filePath+fileName)));
           buffwriter.write(String.valueOf(orders));
           //System.out.println("Write to file done");
       }catch(FileNotFoundException e){
