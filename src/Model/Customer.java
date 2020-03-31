@@ -1,6 +1,7 @@
 /*
-@author Mohammed Hadra (frækfyr@cphbusiness.dk)
+@author Mohammed Hadra (cph-mh879@cphbusiness.dk)
  */
+
 package Model;
 
 public class Customer {
@@ -11,6 +12,18 @@ public class Customer {
     private int customerNo;
     private int prevOrder;
 
+
+    //Construktor
+
+    public Customer(String name, int phoneNo, String mail, int customerNo, int prevOrder) {
+        this.Name = name;
+        this.phoneNo = phoneNo;
+        this.Mail = mail;
+        this.customerNo = customerNo;
+        this.prevOrder = prevOrder;
+    }
+
+    
     //Getter and Setter
 
     public String getName() {
@@ -53,15 +66,6 @@ public class Customer {
         this.prevOrder = prevOrder;
     }
 
-    //Construktor
-
-    public Customer(String name, int phoneNo, String mail, int customerNo, int prevOrder) {
-        this.Name = name;
-        this.phoneNo = phoneNo;
-        this.Mail = mail;
-        this.customerNo = customerNo;
-        this.prevOrder = prevOrder;
-    }
 
     //toString
 
