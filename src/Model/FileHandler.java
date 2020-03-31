@@ -8,11 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//id;navn;pris;fyld
-//1;Vesuvio;57;tomatsauce,ost,skinke,oregano
 
 public class FileHandler {
     protected ArrayList<Pizza> tmpPizzas = new ArrayList<>();
+    protected ArrayList<Customer> tmpCustomers = new ArrayList<>();
 
     public ArrayList<Pizza> readMenuFromFile(String filePath) throws FileNotFoundException{
         File fh = new File(filePath);
@@ -24,7 +23,8 @@ public class FileHandler {
                 lNum++;
                 String line = file.nextLine();
                 String[] lineArr = line.split(";");
-
+                //id;navn;pris;fyld
+                //1;Vesuvio;57;tomatsauce,ost,skinke,oregano
                 try{
                     int id = Integer.parseInt(lineArr[0]);
                     String name = lineArr[1];
@@ -43,7 +43,38 @@ public class FileHandler {
         return tmpPizzas;
     }
 
-    public void fileWriter(ArrayList<Ordre> orders){
+    public ArrayList<Customer> readCustomersFromFile(String filePath) throws FileNotFoundException{
+        File fh = new File(filePath);
+        int lNum = 0;
+        if (fh.exists()){
+            Scanner file = new Scanner(fh);
+
+            while(file.hasNextLine()){
+                lNum++;
+                String line = file.nextLine();
+                String[] lineArr = line.split(";");
+                //navn;telefon;mail;tidlOrdre
+                //Emil Elkjær;60146057;cph-en93@cphbusiness.dk;5
+
+                try{
+                    String name = lineArr[0];
+                    int telefon = Integer.parseInt(lineArr[1]);
+                    String mail = lineArr[2];
+                    int tidlOrdre = Integer.parseInt(lineArr[3]);
+
+                    Customer tmpCust = new Customer(name,telefon,mail,tidlOrdre);
+                    tmpCustomers.add(tmpCust);
+                } catch (Exception e){
+                    //System.out.println("Fejl ved linje " + lNum + ":");
+                    //System.out.println(line);
+
+                }
+            }
+        }
+        return tmpCustomers;
+    }
+
+    public void saveOrdersToFile(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;
         LocalDate ldt = LocalDate.now();
         String fileName = ldt.toString() + "-ordre.csv";

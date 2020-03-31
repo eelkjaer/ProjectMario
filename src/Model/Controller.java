@@ -9,15 +9,17 @@ public class Controller {
     private int menuSelect;
     private FileHandler fh = new FileHandler();
     private ArrayList<Ordre> orders = new ArrayList<>();
+    private ArrayList<Customer> customers = new ArrayList<>();
     private View view = new View();
     private Menucard menucard = new Menucard();
 
-    public Controller() {
+    public Controller() throws FileNotFoundException {
 
     };
 
 
     public void runApplication() throws FileNotFoundException {
+        customers = fh.readCustomersFromFile("Data/customers.csv");
         menucard.createMenucard("Data/menu.csv");
         selectMenu();
     }
@@ -67,6 +69,7 @@ public class Controller {
         selectMenu();
     }
 
+
     private void newOrder(){
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
         System.out.println("## Ny ordre ##");
@@ -86,14 +89,42 @@ public class Controller {
         int cNum = view.intInput("Indtast tlf");
         String cMail = view.strInput("Indtast mail");
 
-        Customer tmpCust = new Customer(cName,cNum,cMail);
+        String orderComment = view.strInput("Bemærkning til ordren (tom hvis ingen)");
 
-        Ordre tmpOrder = new Ordre(false,tmpCust,tmpPizzaList,"None");
+        if(orderComment.equals("") || orderComment.isEmpty() || orderComment.isBlank()){
+            orderComment = "Ingen bemærkninger";
+        }
+
+        boolean inStore;
+        String inStoreQ = view.strInput("Afhentes i butikken? (Ja/Nej)").toLowerCase();
+            if(inStoreQ.equals("ja")){
+                inStore = true;
+            } else if (inStoreQ.equals("nej")){
+                inStore = false;
+            } else {
+                inStore = false;
+            }
+
+            Customer tmpCust = null;
+            for(Customer c: customers){
+                if(c.getPhoneNo() == cNum){
+                    System.out.println("Kunde eksisterer allerede: " + cName);
+                    tmpCust = c;
+                    tmpCust.addNewOrder();
+                } else {
+                    System.out.println("Kunde eksisterede ikke.");
+                    tmpCust = new Customer(cName,cNum,cMail);
+                    customers.add(tmpCust);
+                }
+            }
+
+        Ordre tmpOrder = new Ordre(false,tmpCust,tmpPizzaList,orderComment);
+
 
         orders.add(tmpOrder);
         System.out.println(tmpOrder);
 
-        fh.fileWriter(orders);
+        fh.saveOrdersToFile(orders);
 
         selectMenu();
     }
