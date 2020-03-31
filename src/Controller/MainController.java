@@ -7,74 +7,36 @@ import View.View;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class MainController {
-    private int menuSelect;
+
     private FileHandler fh = new FileHandler();
     private ArrayList<Ordre> orders = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
-    private View view = new View();
+    private View view = new View(this);
     private Menucard menucard = new Menucard();
 
     public MainController() {
 
     }
 
-
     public void runApplication() throws FileNotFoundException {
         customers = fh.readCustomersFromFile("Data/customers.csv");
         menucard.createMenucard("Data/menu.csv");
-        selectMenu();
+
+        view.selectMenu();
     }
 
-
-    private void selectMenu(){
-        printMainMenu();
-        this.menuSelect = new View().intInput("Dit valg");
-        switch (this.menuSelect){
-            case 1:
-                seeMenucard();
-                break;
-            case 2:
-                newOrder();
-                break;
-            case 3:
-                changeOrder();
-                break;
-            case 4:
-                getOrders();
-                break;
-            case 5:
-                generateStats();
-                break;
-            case 6:
-                System.exit(0);
-            default:
-                selectMenu();
-        }
-    }
-
-    private void printMainMenu(){
-        System.out.println("#####################");
-        System.out.println("1) Se menu");
-        System.out.println("2) Opret ordre");
-        System.out.println("3) Luk ordre");
-        System.out.println("4) Se ordre");
-        System.out.println("5) Se statistik");
-        System.out.println("6) Afslut system");
-        System.out.println("#####################");
-    }
-
-    private void seeMenucard(){
+    public void seeMenucard(){
         System.out.println("## Se menukort ##");
 
         System.out.println(menucard.getMenu());
-        selectMenu();
+        view.selectMenu();
     }
 
-
-    private void newOrder(){
+    public void newOrder(){
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
         System.out.println("## Ny ordre ##");
         System.out.println("Indtast ønskede pizza nummer. Afsluttes med 0");
@@ -129,7 +91,7 @@ public class MainController {
             }
 
 
-        Ordre tmpOrder = new Ordre(false,tmpCust,tmpPizzaList,orderComment);
+        Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment);
 
 
         orders.add(tmpOrder);
@@ -137,10 +99,10 @@ public class MainController {
 
         fh.saveOrdersToFile(orders);
 
-        selectMenu();
+        view.selectMenu();
     }
 
-    private void changeOrder(){
+    public void changeOrder(){
         System.out.println("## Ændre ordre ##");
         int ordrenummer = view.intInput("Indtast ordrenummmer");
 
@@ -149,11 +111,11 @@ public class MainController {
                 o.setDone(true);
             }
         }
-        selectMenu();
+        view.selectMenu();
 
     }
 
-    private void getOrders(){
+    public void getOrders(){
         System.out.println("## Se ordre ##");
         if(orders.isEmpty()){
             System.out.println("Der er ingen åbne bestillinger!");
@@ -164,10 +126,10 @@ public class MainController {
                 }
             }
         }
-        selectMenu();
+        view.selectMenu();
     }
 
-    private void generateStats(){
+    public void generateStats(){
         System.out.println("## Se statistik ##");
         double totalRev = 0.0;
 
@@ -176,19 +138,31 @@ public class MainController {
         }
         System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
 
-        int occurrences = 0;
 
-        
 
+        int[] taeller = new int[menucard.getMenu().size()];
         for(Ordre o:orders){
-            occurrences = Collections.frequency(o.getPizzas(), "Cabona");
+            for(Pizza p:o.getPizzas()){
+                taeller[p.getNumber()-1]++;
+            }
             
         }
 
-        System.out.println("count: " + occurrences);
+        ArrayList<String> stats = new ArrayList<>();
 
-        selectMenu();
+        System.out.println("\n### PIZZA STATISTIK ###");
+        System.out.println("NAVN - ANTAL SOLGTE - TOTAL OMSÆTNING");
+        for(Pizza pz:menucard.getMenu()){
+            int pzCount = taeller[pz.getNumber()-1];
+            String str = pz.getName() + ";" + pzCount + ";" + pzCount*pz.getPrice();
+            stats.add(str);
+            System.out.println(str.replace(";"," - "));
+        }
 
-        //TODO: Eksporter ordre til csv fil.
+        fh.saveStatsToFile(stats);
+
+        fh.saveOrdersToFile(orders);
+
+        view.selectMenu();
     }
 }
