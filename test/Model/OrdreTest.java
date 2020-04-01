@@ -1,13 +1,17 @@
+/*
+@author Andreas Bergmann (cph-ab435@cphbusiness.dk)
+ */
 package Model;
 
 import Controller.FileHandler;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+
 
 class OrdreTest {
 Ordre ordre;
@@ -15,8 +19,8 @@ Customer customer;
 Pizza pizza1;
 Pizza pizza2;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
        // boolean inStore, Customer customer, ArrayList<Pizza> pizzas, String comment
         // String name, int phoneNo, String mail
         // int number, String name, double price, String[] filling
@@ -38,7 +42,7 @@ Pizza pizza2;
     }
 
     @Test
-    void getPrice() {
+    public void getPrice() {
         double expected = 120;
         double actual = ordre.getPrice();
 
