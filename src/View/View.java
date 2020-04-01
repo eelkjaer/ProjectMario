@@ -2,6 +2,7 @@
 @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
  */
 package View;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import Controller.MainController;
 
@@ -14,9 +15,9 @@ public class View {
     }
 
     public void selectMenu(){
-        printMainMenu();
+        printMainMenu(); //Printer oversigt med menupunkter.
         int menuSelect = intInput("Dit valg: ");
-        switch (menuSelect){
+        switch (menuSelect){ //Switch til menupunkter.
             case 1:
                 ctrl.seeMenucard();
                 break;
@@ -30,12 +31,17 @@ public class View {
                 ctrl.getOrders();
                 break;
             case 5:
-                ctrl.generateStats();
+                try {
+                    ctrl.generateStats();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 break;
             case 6:
-                System.exit(0);
+                System.exit(0); //Lukker applikationen helt.
             default:
-                selectMenu();
+                System.out.println(menuSelect + " findes ikke!");
+                selectMenu(); //Fortsætter loop hvis der vælges noget andet end mulighederne.
         }
     }
 

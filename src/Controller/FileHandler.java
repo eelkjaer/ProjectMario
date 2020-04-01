@@ -17,6 +17,9 @@ import java.util.Scanner;
 public class FileHandler {
     protected final ArrayList<Pizza> tmpPizzas = new ArrayList<>();
     protected final ArrayList<Customer> tmpCustomers = new ArrayList<>();
+    protected final ArrayList<String> tmpStats = new ArrayList<>();
+
+    private static final boolean debug = false;
 
     public ArrayList<Pizza> readMenuFromFile(String filePath) throws FileNotFoundException{
         File fh = new File(filePath);
@@ -39,13 +42,24 @@ public class FileHandler {
                     Pizza tmpPizza = new Pizza(id,name,price,fillings);
                     tmpPizzas.add(tmpPizza);
                 } catch (Exception e){
-                    //System.out.println("Fejl ved linje " + lNum + ":");
-                    //System.out.println(line);
-
+                    if(debug){
+                        System.out.println("Fejl ved linje " + lNum + ":");
+                        System.out.println(line);
+                    }
                 }
             }
         }
         return tmpPizzas;
+    }
+
+    public boolean doesFileExist(String filePath) throws FileNotFoundException {
+        File fh = new File(filePath);
+
+        if(fh.exists()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public ArrayList<Customer> readCustomersFromFile(String filePath) throws FileNotFoundException{
@@ -70,13 +84,50 @@ public class FileHandler {
                     Customer tmpCust = new Customer(name,telefon,mail,tidlOrdre);
                     tmpCustomers.add(tmpCust);
                 } catch (Exception e){
-                    //System.out.println("Fejl ved linje " + lNum + ":");
-                    //System.out.println(line);
+                    if(debug){
+                        System.out.println("Fejl ved linje " + lNum + ":");
+                        System.out.println(line);
+                    }
+
 
                 }
             }
         }
         return tmpCustomers;
+    }
+
+    public ArrayList<String> readStatsFromFile(String filePath) throws FileNotFoundException{
+        File fh = new File(filePath);
+        int lNum = 0;
+        if (fh.exists()){
+            Scanner file = new Scanner(fh);
+
+            while(file.hasNextLine()){
+                lNum++;
+                String line = file.nextLine();
+                String[] lineArr = line.split(";");
+                //navn;antal;salg
+                //Vesuvio;0;0.0
+
+                try{
+                    String navn = lineArr[0];
+                    int antal = Integer.parseInt(lineArr[1]);
+                    double salg = Double.parseDouble(lineArr[2]);
+
+                    String tmpStat = new String(navn + ";" + antal + ";" + salg);
+
+                    tmpStats.add(tmpStat);
+                } catch (Exception e){
+                    if(debug){
+                        System.out.println("Fejl ved linje " + lNum + ":");
+                        System.out.println(line);
+                    }
+
+
+                }
+            }
+        }
+        return tmpStats;
     }
 
     public void saveCustomersToFile(ArrayList<Customer> customers){
@@ -97,13 +148,18 @@ public class FileHandler {
                 buffwriter.write(str);
                 buffwriter.newLine();
             }
-            //System.out.println("Write to file done");
+            if(debug){
+                System.out.println("Write to file done");
+            }
         } catch (FileNotFoundException e) {
-            //System.out.println("File not found!");
+            if(debug){
+                System.out.println("File not found!");
+            }
         } catch (IOException e) {
-            //System.out.println("Error" + e.toString());
+            if(debug){
+                System.out.println("Error" + e.toString());
+            }
         }
-        //System.out.println("IEO Error" + e.toString());
     }
     public void saveOrdersToFile(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;
@@ -115,11 +171,17 @@ public class FileHandler {
       try{
           buffwriter = new BufferedWriter(new FileWriter(new File(filePath+fileName)));
           buffwriter.write(String.valueOf(orders));
-          //System.out.println("Write to file done");
+          if(debug){
+              System.out.println("Write to file done");
+          }
       }catch(FileNotFoundException e){
-          //System.out.println("File not found!");
+          if(debug){
+              System.out.println("File not found!");
+          }
       }catch(IOException e){
-          //System.out.println("Error" + e.toString());
+          if(debug){
+              System.out.println("Error" + e.toString());
+          }
         }
       finally{
           try{
@@ -127,7 +189,9 @@ public class FileHandler {
                 buffwriter.close();
               }
           }catch(IOException e){
-              //System.out.println("IEO Error" + e.toString());
+              if(debug){
+                  System.out.println("IEO Error" + e.toString());
+              }
           }
       }
 
@@ -149,9 +213,13 @@ public class FileHandler {
                 buffwriter.newLine();
             }
         }catch(FileNotFoundException e){
-            //System.out.println("File not found!");
+            if(debug){
+                System.out.println("File not found!");
+            }
         }catch(IOException e){
-            //System.out.println("Error" + e.toString());
+            if(debug){
+                System.out.println("Error" + e.toString());
+            }
         }
         finally{
             try{
@@ -159,7 +227,9 @@ public class FileHandler {
                     buffwriter.close();
                 }
             }catch(IOException e){
-                //System.out.println("IEO Error" + e.toString());
+                if(debug){
+                    System.out.println("IEO Error" + e.toString());
+                }
             }
         }
 

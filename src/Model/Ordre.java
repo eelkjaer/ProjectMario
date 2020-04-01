@@ -31,7 +31,7 @@ public class Ordre {
     }
 
     /*
-     * Udregner ordrens samlet værdi.
+     * Udregner ordrens samlet værdi ved at bruge prisen for hver pizza.
      */
     public double calculatePrice(ArrayList<Pizza> pizzas){
         double totalPrice = 0.0;

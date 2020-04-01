@@ -13,6 +13,7 @@ public class MainController {
 
     private final FileHandler fh = new FileHandler();
     private final ArrayList<Ordre> orders = new ArrayList<>();
+    private ArrayList<String> stats = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
     private final Menucard menucard = new Menucard();
@@ -23,6 +24,10 @@ public class MainController {
 
     public void runApplication() throws FileNotFoundException {
         customers = fh.readCustomersFromFile("Data/customers.csv"); //Importerer alle kunderne til memory.
+        String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
+        if(fh.doesFileExist(statsFilePath)) {
+            stats = fh.readStatsFromFile(statsFilePath);
+        }
         menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
 
         view.selectMenu(); //Starter menu loop.
@@ -32,37 +37,29 @@ public class MainController {
         System.out.println("## Se menukort ##");
 
         for(Pizza p:menucard.getMenu()){
-            System.out.println(
+            System.out.println( //Printer et formatteret menukort.
                     p.getNumber()
                     + ". " + p.getName()
                     + ": " + p.getFillingFormatted()
                     + "......" + p.getPrice()
                     + ",-");
         }
-
-//        String menu = menucard.getMenu().toString()
-//                .replace(",","")
-//                .replace("[","")
-//                .replace("]","")
-//                .trim()
-//                .;
-//        System.out.println(menu);
         view.selectMenu(); //Viser user menuen igen.
     }
 
     /*
-     *
+     * Opretter nyt ordre objekt og tilføjer til ordrelisten og ordre filen.
      */
     public void newOrder(){
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
         System.out.println("## Ny ordre ##");
         System.out.println("Indtast ønskede pizza nummer. Afsluttes med 0");
         boolean ispizza = true;
-        while(ispizza){
+        while(ispizza){ //Loop indtil der tastes 0
             int number = view.intInput("Pizza nr: ");
-            if(number == 0){
+            if(number == 0){ //Afslutter loopet
                 ispizza = false;
-            } else if (number > menucard.getMenu().size()) {
+            } else if (number > menucard.getMenu().size()) { //Fejl hvis nummeret ikke eksisterer
                 System.out.println("Det indtastede nummer eksisterer ikke!");
             } else{
                 tmpPizzaList.add(menucard.getMenu().get(number-1));
@@ -73,47 +70,52 @@ public class MainController {
 
         Customer tmpCust = null;
         for(Customer c: customers){
-            if(c.getPhoneNo() == cNum){
+            if(c.getPhoneNo() == cNum){ //Hvis kunden eksisterer/Allerede er oprettet, bruges dette kunde objekt
                 System.out.println("Kunde eksisterer allerede: " + c.getName());
                 tmpCust = c;
                 tmpCust.addNewOrder();
-                fh.saveCustomersToFile(customers);
-                break;
-            } else {
+                view.strInput("".trim()); //Fikser Scanner string bug
+            } else { //Hvis kunden ikke eksisterer, tastes ekstra info og kunden gemmes både i memory og i databasen.
                 System.out.println("Kunde eksisterede ikke.");
+                view.strInput("".trim()); //Fikser Scanner string bug
                 String cName = view.strInput("Indtast kundenavn: ");
                 String cMail = view.strInput("Indtast mail: ");
                 tmpCust = new Customer(cName,cNum,cMail);
                 customers.add(tmpCust);
-                fh.saveCustomersToFile(customers);
-                break;
             }
+            fh.saveCustomersToFile(customers);
+            break;
         }
-        view.strInput("".trim()); //Fikser Scanner string bug
 
         String orderComment;
         orderComment = view.strInput("Bemærkning til ordren (tom hvis ingen): ");
 
-        if(orderComment.equals("") || orderComment.isEmpty() || orderComment.isBlank()){
+        if(orderComment.equals("") || orderComment.isEmpty() || orderComment.isBlank()){ //Sikre at variablen aldrig er null eller tom.
             orderComment = "Ingen bemærkninger";
         }
 
-        boolean inStore = false;
-        String inStoreQ = view.strInput("Afhentes i butikken? (Ja/Nej): ").toLowerCase();
-        inStore = inStoreQ.equals("ja");
+        /*
+         * Hvis kunden afhenter ordren ligges der 1 time til nuværende klokkeslæt.
+         * Såfremt kunden allerede står i butikken, ligges der 15 minutter til.
+         */
+        String inStoreQ = view.strInput("Står kunden i butikken? (Ja/Nej): ").toLowerCase();
+        boolean inStore = inStoreQ.equals("ja");
 
 
-        Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment);
+        Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment); //Opretter midlertidigt ordre objekt.
 
 
-        orders.add(tmpOrder);
+        orders.add(tmpOrder); //Tilføjer objektet til arrayet
         System.out.println(tmpOrder);
 
-        fh.saveOrdersToFile(orders);
+        fh.saveOrdersToFile(orders); //Gemmer ordren i ordrefilen.
 
         view.selectMenu();
     }
 
+    /*
+     * Ændre ordren til færdig, således den ikke vises i oversigten længere.
+    */
     public void changeOrder(){
         System.out.println("## Ændre ordre ##");
         int ordrenummer = view.intInput("Indtast ordrenummmer: ");
@@ -127,6 +129,9 @@ public class MainController {
 
     }
 
+    /*
+     * Viser alle ordre på skærmen.
+     */
     public void getOrders(){
         System.out.println("## Se ordre ##");
         if(orders.isEmpty()){
@@ -141,31 +146,59 @@ public class MainController {
         view.selectMenu();
     }
 
-    public void generateStats(){
+    /*
+     * Opretter og udregner statistik for kunden.
+     * Såfremt filen ikke findes oprettet en ny
+     * Såfremt den findes, hentes data ind.
+     */
+    public void generateStats() throws FileNotFoundException {
         System.out.println("\n### PIZZA STATISTIK ###");
 
-        ArrayList<String> stats = new ArrayList<>();
+        ArrayList<String> tmpStats = new ArrayList<>();
+
         double totalRev = 0.0;
         int[] taeller = new int[menucard.getMenu().size()];
         String filePath = "Export/" + LocalDate.now().toString() + "-statistik.csv";
 
-        for(Ordre o:orders){
-            totalRev += o.getPrice();
-            for(Pizza p:o.getPizzas()){
-                taeller[p.getNumber()-1]++;
+
+        //NAVN - ANTAL SOLGTE - TOTAL OMSÆTNING
+        int counter=0;
+
+        if(fh.doesFileExist(filePath)){
+            for(String s:stats){
+                String[] data = s.split(";");
+                totalRev+= Double.parseDouble(data[2]);
             }
         }
-
-        //System.out.println("NAVN - ANTAL SOLGTE - TOTAL OMSÆTNING");
         for(Pizza pz:menucard.getMenu()){
             int pzCount = taeller[pz.getNumber()-1];
+
             String str = pz.getName() + ";" + pzCount + ";" + pzCount*pz.getPrice();
-            stats.add(str);
-            //System.out.println(str.replace(";"," - "));
+
+            if(fh.doesFileExist(filePath)){ //Hvis filen allerede eksisterer, skal den nuværende data erstattes.
+
+
+                String[] data = stats.get(counter).split(";");
+                int antal = pzCount+Integer.parseInt(data[1]);
+                double pris = (pzCount*pz.getPrice()) + Double.parseDouble(data[2]);
+                str = pz.getName() + ";" + antal + ";" + pris; //erstatter str således den gamle data også bliver brugt.
+            }
+
+            for(Ordre o:orders){
+                if(!fh.doesFileExist(filePath)){ //Hvis filen ikke allerede eksisterer.
+                    totalRev += o.getPrice(); //Tilføjer hver ordrens værdi til en samlet sum.
+                }
+                for(Pizza p:o.getPizzas()){
+                    taeller[p.getNumber()-1]++;
+                }
+            }
+
+            tmpStats.add(str); //Tilføjer datarække til array
+            counter++;
         }
 
-        fh.saveStatsToFile(stats);
-        fh.saveOrdersToFile(orders);
+        fh.saveStatsToFile(tmpStats); //Gemmer arrayet i en CSV fil, så det kan åbnes i f.eks. Excel
+        fh.saveOrdersToFile(orders); //Gemmer alle ordre i en CSV fil.
 
         System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
         System.out.println("Statistik gemt: " + filePath+"\n");

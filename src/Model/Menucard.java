@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Menucard {
     private ArrayList<Pizza> menu = new ArrayList<>();
-    private FileHandler fh = new FileHandler();
+    private final FileHandler fh = new FileHandler();
 
     public void setMenucard(ArrayList<Pizza> pizzas){
         this.menu = pizzas;
@@ -20,7 +20,7 @@ public class Menucard {
     }
 
     public void createMenucard(String filePath) throws FileNotFoundException {
-        setMenucard(fh.readMenuFromFile(filePath));
+        setMenucard(fh.readMenuFromFile(filePath)); //Opretter et menu array fra filen.
 
     }
 

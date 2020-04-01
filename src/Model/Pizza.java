@@ -5,13 +5,12 @@ package Model;
 
 import java.util.Arrays;
 
-//Constructer
 
 public class Pizza {
-    private int number;
-    private String name;
-    private double price;
-    private String[] filling;
+    private final int number;
+    private final String name;
+    private final double price;
+    private final String[] filling;
 
     public Pizza(int number, String name, double price, String[] filling){
         this.number = number;
@@ -20,7 +19,7 @@ public class Pizza {
         this.filling = filling;
 
     }
-//getter and toString
+
     public int getNumber(){
         return this.number;
     }
@@ -29,7 +28,7 @@ public class Pizza {
         return price;
     }
 
-    public String getFillingFormatted(){
+    public String getFillingFormatted(){ //Retunerer en formatteret streng med toppings.
         return Arrays.toString(this.filling).replace("[","").replace("]","");
     }
 
