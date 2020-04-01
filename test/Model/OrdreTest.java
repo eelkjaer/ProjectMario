@@ -4,13 +4,13 @@
 package Model;
 
 import Controller.FileHandler;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class OrdreTest {
@@ -19,7 +19,7 @@ Customer customer;
 Pizza pizza1;
 Pizza pizza2;
 
-    @Before
+    @BeforeEach
     public void setUp() {
        // boolean inStore, Customer customer, ArrayList<Pizza> pizzas, String comment
         // String name, int phoneNo, String mail
