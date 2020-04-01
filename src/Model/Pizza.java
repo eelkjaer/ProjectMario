@@ -5,6 +5,8 @@ package Model;
 
 import java.util.Arrays;
 
+//Constructer
+
 public class Pizza {
     private int number;
     private String name;
@@ -18,7 +20,7 @@ public class Pizza {
         this.filling = filling;
 
     }
-
+//getter and toString
     public int getNumber(){
         return this.number;
     }
