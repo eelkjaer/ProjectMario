@@ -18,7 +18,8 @@ public class FileHandler {
     protected final ArrayList<Pizza> tmpPizzas = new ArrayList<>();
     protected final ArrayList<Customer> tmpCustomers = new ArrayList<>();
     protected final ArrayList<String> tmpStats = new ArrayList<>();
-
+    // Læser vores menu Fil // throws FileNotFoundException hvis et forsøg på, at åbne en af vores filer er mislykkedes
+    //
     private static final boolean debug = false;
 
     public boolean doesFileExist(String filePath) throws FileNotFoundException {
@@ -37,9 +38,9 @@ public class FileHandler {
         if (fh.exists()){
             Scanner file = new Scanner(fh);
 
-            while(file.hasNextLine()){
+            while(file.hasNextLine()){//Returnerer True, hvis der er en anden linje i input til denne scanner.
                 lNum++;
-                String line = file.nextLine();
+                String line = file.nextLine();//den aktuelle linje og returnerer det input, der blev sprunget over.(Bruges i en fejl meddelse)
                 String[] lineArr = line.split(";");
                 //id;navn;pris;fyld
                 //1;Vesuvio;57;tomatsauce,ost,skinke,oregano
@@ -47,11 +48,11 @@ public class FileHandler {
                     int id = Integer.parseInt(lineArr[0]);
                     String name = lineArr[1];
                     double price = Double.parseDouble(lineArr[2]);
-                    String[] fillings = lineArr[3].split(",");
+                    String[] fillings = lineArr[3].split(",");//Tager alt det der er ( , ) sepereret så vi ikke behøver at læse hver ingredients for sig selv
 
                     Pizza tmpPizza = new Pizza(id,name,price,fillings);
-                    tmpPizzas.add(tmpPizza);
-                } catch (Exception e){
+                    tmpPizzas.add(tmpPizza);// Vi udfylder agrumenterne i vores nye objekt og adder en tmpPizza med de informationer vi har fra vores fil
+                } catch (Exception e){ //error handling kode
                     if(debug){
                         System.out.println("Fejl ved linje " + lNum + ":");
                         System.out.println(line);
@@ -61,7 +62,7 @@ public class FileHandler {
         }
         return tmpPizzas;
     }
-
+    // Læser vores customer fil
     public ArrayList<Customer> readCustomersFromFile(String filePath) throws FileNotFoundException{
         File fh = new File(filePath);
         int lNum = 0;
@@ -131,7 +132,7 @@ public class FileHandler {
     }
 
     public void saveCustomersToFile(ArrayList<Customer> customers){
-
+    //Skriver til customer Fil med BufferedWriter
 
         String fileName = "customers.csv";
         String filePath = "Data/";
@@ -196,7 +197,7 @@ public class FileHandler {
       }
 
     }
-
+    //Gemmer navn/salg/antal I Mario's Statistik mappe
     public void saveStatsToFile(ArrayList<String> stats){
         BufferedWriter buffwriter = null;
         LocalDate ldt = LocalDate.now();
