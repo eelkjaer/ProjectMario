@@ -9,14 +9,14 @@ import java.util.ArrayList;
 
 public class Ordre {
     private static int orderCounter = 202001;
-    int orderNumber;
-    boolean inStore;
-    boolean isDone;
-    LocalDateTime timestamp;
-    Customer customer;
-    ArrayList<Pizza> pizzas;
-    double price;
-    String comment;
+    private int orderNumber;
+    private boolean inStore;
+    private boolean isDone;
+    private LocalDateTime timestamp;
+    private Customer customer;
+    private ArrayList<Pizza> pizzas;
+    private double price;
+    private String comment;
 
     public Ordre(boolean inStore, Customer customer, ArrayList<Pizza> pizzas, String comment) {
         this.orderNumber = orderCounter;
@@ -47,12 +47,41 @@ public class Ordre {
         }
     }
 
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public boolean isInStore() {
+        return inStore;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public ArrayList<Pizza> getPizzas() {
+        return pizzas;
+    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
     public boolean isDone() {
         return isDone;
     }
 
     public void setDone(boolean done) {
         isDone = done;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     @Override

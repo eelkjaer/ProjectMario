@@ -1,5 +1,5 @@
 /*
-@author Jacob Lange Nielsen (frækfyr@cphbusiness.dk)
+@author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
 package Model;
 
@@ -17,6 +17,10 @@ public class Pizza {
         this.price = price;
         this.filling = filling;
 
+    }
+
+    public int getNumber(){
+        return this.number;
     }
 
     public double getPrice() {

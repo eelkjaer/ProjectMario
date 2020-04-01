@@ -5,29 +5,29 @@ package Model;
 
 public class Customer {
 
-    private String Name;
+    private String name;
     private int phoneNo;
-    private String Mail;
+    private String mail;
     private int prevOrder = 0;
 
     //Construktor
 
     public Customer(String name, int phoneNo, String mail) {
-        this.Name = name;
+        this.name = name;
         this.phoneNo = phoneNo;
-        this.Mail = mail;
+        this.mail = mail;
         this.prevOrder++;
+    }
+
+    public Customer(String name, int phoneNo, String mail, int prevOrder){
+        this.name = name;
+        this.phoneNo = phoneNo;
+        this.mail = mail;
+        this.prevOrder = prevOrder;
     }
 
     //Getter and Setter
 
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
 
     public int getPhoneNo() {
         return phoneNo;
@@ -37,30 +37,43 @@ public class Customer {
         this.phoneNo = phoneNo;
     }
 
-    public String getMail() {
-        return Mail;
-    }
-
-    public void setMail(String mail) {
-        Mail = mail;
-    }
-
     public int getPrevOrder() {
         return prevOrder;
     }
 
-    public void setPrevOrder(int prevOrder) {
-        this.prevOrder = prevOrder;
+    public String getName() {
+        return name;
     }
 
-    //toString
+    public String getMail() {
+        return mail;
+    }
+
+    public void addNewOrder() {
+        this.prevOrder++;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        return phoneNo == customer.phoneNo;
+    }
+
+    @Override
+    public int hashCode() {
+        return phoneNo;
+    }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "Name='" + Name + '\'' +
+                "Name='" + name + '\'' +
                 ", phoneNo=" + phoneNo +
-                ", Mail='" + Mail + '\'' +
+                ", Mail='" + mail + '\'' +
                 ", prevOrder=" + prevOrder +
                 '}';
     }

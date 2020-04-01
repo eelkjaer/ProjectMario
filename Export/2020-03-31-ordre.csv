@@ -1,0 +1,27 @@
+[
+Ordre 202001
+In store: false
+Klar tid: 15:38
+Kunde: Customer{Name='Emil Elkjær', phoneNo=60146057, Mail='cph-en93@cphbusiness.dk', prevOrder=26}
+Pizzaer: [
+Pizza{
+number=1
+name=Vesuvio
+price=57.0
+filling=[tomatsauce, ost, skinke, oregano]
+}, 
+Pizza{
+number=1
+name=Vesuvio
+price=57.0
+filling=[tomatsauce, ost, skinke, oregano]
+}, 
+Pizza{
+number=1
+name=Vesuvio
+price=57.0
+filling=[tomatsauce, ost, skinke, oregano]
+}]
+Pris: 171,00 kr
+Kommentar: Ingen bemærkninger
+]
