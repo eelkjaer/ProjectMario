@@ -1,5 +1,6 @@
 /*
 @author Andreas Bergmann (cph-ab435@cphbusiness.dk)
+@author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
  */
 package Controller;
 
@@ -14,8 +15,8 @@ import java.util.Scanner;
 
 
 public class FileHandler {
-    protected ArrayList<Pizza> tmpPizzas = new ArrayList<>();
-    protected ArrayList<Customer> tmpCustomers = new ArrayList<>();
+    protected final ArrayList<Pizza> tmpPizzas = new ArrayList<>();
+    protected final ArrayList<Customer> tmpCustomers = new ArrayList<>();
 
     public ArrayList<Pizza> readMenuFromFile(String filePath) throws FileNotFoundException{
         File fh = new File(filePath);
@@ -79,40 +80,30 @@ public class FileHandler {
     }
 
     public void saveCustomersToFile(ArrayList<Customer> customers){
-        BufferedWriter buffwriter = null;
+
+
         String fileName = "customers.csv";
         String filePath = "Data/";
-
-
-        try{
-            buffwriter = new BufferedWriter(new FileWriter(new File(filePath+fileName)));
+        try (BufferedWriter buffwriter = new BufferedWriter(new FileWriter(new File(filePath + fileName)))) {
             buffwriter.write("navn;telefon;mail;tidlOrdre");
             buffwriter.newLine();
-            for(Customer c: customers){
+            for (Customer c : customers) {
                 String name = c.getName();
                 int phone = c.getPhoneNo();
                 String mail = c.getMail();
                 int orders = c.getPrevOrder();
 
-                String str = name+";"+phone+";"+mail+";"+orders;
+                String str = name + ";" + phone + ";" + mail + ";" + orders;
                 buffwriter.write(str);
                 buffwriter.newLine();
             }
             //System.out.println("Write to file done");
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             //System.out.println("File not found!");
-        }catch(IOException e){
+        } catch (IOException e) {
             //System.out.println("Error" + e.toString());
         }
-        finally{
-            try{
-                if(buffwriter != null){
-                    buffwriter.close();
-                }
-            }catch(IOException e){
-                //System.out.println("IEO Error" + e.toString());
-            }
-        }
+        //System.out.println("IEO Error" + e.toString());
     }
     public void saveOrdersToFile(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;

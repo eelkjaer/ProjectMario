@@ -5,9 +5,9 @@ package Model;
 
 public class Customer {
 
-    private String name;
+    private final String name;
     private int phoneNo;
-    private String mail;
+    private final String mail;
     private int prevOrder = 0;
 
     //Construktor

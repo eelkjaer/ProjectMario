@@ -7,16 +7,14 @@ import View.View;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class MainController {
 
-    private FileHandler fh = new FileHandler();
-    private ArrayList<Ordre> orders = new ArrayList<>();
+    private final FileHandler fh = new FileHandler();
+    private final ArrayList<Ordre> orders = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
-    private View view = new View(this);
-    private Menucard menucard = new Menucard();
+    private final View view = new View(this);
+    private final Menucard menucard = new Menucard();
 
     public MainController() {
 

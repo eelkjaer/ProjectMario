@@ -6,10 +6,8 @@ import java.util.Scanner;
 import Controller.MainController;
 
 public class View {
-    private Scanner input = new Scanner(System.in);
-    private MainController ctrl = null;
-
-    private int menuSelect;
+    private final Scanner input = new Scanner(System.in);
+    private final MainController ctrl;
 
     public View(MainController control){
         this.ctrl = control;
@@ -17,8 +15,8 @@ public class View {
 
     public void selectMenu(){
         printMainMenu();
-        this.menuSelect = intInput("Dit valg");
-        switch (this.menuSelect){
+        int menuSelect = intInput("Dit valg");
+        switch (menuSelect){
             case 1:
                 ctrl.seeMenucard();
                 break;
@@ -59,8 +57,7 @@ public class View {
 
     public String strInput(String inputRequired){
         System.out.print("\n" + inputRequired + ": ");
-        String str = input.nextLine();
-        return str;
+        return input.nextLine();
     }
 
     protected double doubleInput(String inputRequired){
