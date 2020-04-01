@@ -113,9 +113,7 @@ public class FileHandler {
                 //System.out.println("IEO Error" + e.toString());
             }
         }
-
     }
-
     public void saveOrdersToFile(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;
         LocalDate ldt = LocalDate.now();
