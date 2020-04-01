@@ -21,6 +21,16 @@ public class FileHandler {
 
     private static final boolean debug = false;
 
+    public boolean doesFileExist(String filePath) throws FileNotFoundException {
+        File fh = new File(filePath);
+
+        if(fh.exists()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public ArrayList<Pizza> readMenuFromFile(String filePath) throws FileNotFoundException{
         File fh = new File(filePath);
         int lNum = 0;
@@ -50,16 +60,6 @@ public class FileHandler {
             }
         }
         return tmpPizzas;
-    }
-
-    public boolean doesFileExist(String filePath) throws FileNotFoundException {
-        File fh = new File(filePath);
-
-        if(fh.exists()){
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public ArrayList<Customer> readCustomersFromFile(String filePath) throws FileNotFoundException{
