@@ -24,26 +24,20 @@ public class MainController {
 
     public void runApplication() throws FileNotFoundException {
         customers = fh.readCustomersFromFile("Data/customers.csv"); //Importerer alle kunderne til memory.
+
+        menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
+
         String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
         if(fh.doesFileExist(statsFilePath)) {
             stats = fh.readStatsFromFile(statsFilePath);
         }
-        menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
 
         view.selectMenu(); //Starter menu loop.
     }
 
     public void seeMenucard(){
-        System.out.println("## Se menukort ##");
+        menucard.printMenu(); //Printer hele menukortet
 
-        for(Pizza p:menucard.getMenu()){
-            System.out.println( //Printer et formatteret menukort.
-                    p.getNumber()
-                    + ". " + p.getName()
-                    + ": " + p.getFillingFormatted()
-                    + "......" + p.getPrice()
-                    + ",-");
-        }
         view.selectMenu(); //Viser user menuen igen.
     }
 
@@ -52,7 +46,6 @@ public class MainController {
      */
     public void newOrder(){
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
-        System.out.println("## Ny ordre ##");
         System.out.println("Indtast ønskede pizza nummer. Afsluttes med 0");
         boolean ispizza = true;
         while(ispizza){ //Loop indtil der tastes 0
@@ -117,7 +110,6 @@ public class MainController {
      * Ændre ordren til færdig, således den ikke vises i oversigten længere.
     */
     public void changeOrder(){
-        System.out.println("## Ændre ordre ##");
         int ordrenummer = view.intInput("Indtast ordrenummmer: ");
 
         for(Ordre o:orders){
@@ -133,7 +125,6 @@ public class MainController {
      * Viser alle ordre på skærmen.
      */
     public void getOrders(){
-        System.out.println("## Se ordre ##");
         if(orders.isEmpty()){
             System.out.println("Der er ingen åbne bestillinger!");
         } else {
@@ -152,8 +143,6 @@ public class MainController {
      * Såfremt den findes, hentes data ind.
      */
     public void generateStats() throws FileNotFoundException {
-        System.out.println("\n### PIZZA STATISTIK ###");
-
         ArrayList<String> tmpStats = new ArrayList<>();
 
         double totalRev = 0.0;
