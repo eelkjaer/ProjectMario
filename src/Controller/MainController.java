@@ -6,6 +6,7 @@ import Model.*;
 import View.View;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainController {
@@ -21,26 +22,44 @@ public class MainController {
     }
 
     public void runApplication() throws FileNotFoundException {
-        customers = fh.readCustomersFromFile("Data/customers.csv");
-        menucard.createMenucard("Data/menu.csv");
+        customers = fh.readCustomersFromFile("Data/customers.csv"); //Importerer alle kunderne til memory.
+        menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
 
-        view.selectMenu();
+        view.selectMenu(); //Starter menu loop.
     }
 
     public void seeMenucard(){
         System.out.println("## Se menukort ##");
 
-        System.out.println(menucard.getMenu());
-        view.selectMenu();
+        for(Pizza p:menucard.getMenu()){
+            System.out.println(
+                    p.getNumber()
+                    + ". " + p.getName()
+                    + ": " + p.getFillingFormatted()
+                    + "......" + p.getPrice()
+                    + ",-");
+        }
+
+//        String menu = menucard.getMenu().toString()
+//                .replace(",","")
+//                .replace("[","")
+//                .replace("]","")
+//                .trim()
+//                .;
+//        System.out.println(menu);
+        view.selectMenu(); //Viser user menuen igen.
     }
 
+    /*
+     *
+     */
     public void newOrder(){
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
         System.out.println("## Ny ordre ##");
         System.out.println("Indtast ønskede pizza nummer. Afsluttes med 0");
         boolean ispizza = true;
         while(ispizza){
-            int number = view.intInput("Pizza nr");
+            int number = view.intInput("Pizza nr: ");
             if(number == 0){
                 ispizza = false;
             } else if (number > menucard.getMenu().size()) {
@@ -50,7 +69,7 @@ public class MainController {
             }
         }
 
-        int cNum = view.intInput("Indtast kundenummer (Tlf)");
+        int cNum = view.intInput("Indtast kundenummer (Tlf): ");
 
         Customer tmpCust = null;
         for(Customer c: customers){
@@ -62,31 +81,26 @@ public class MainController {
                 break;
             } else {
                 System.out.println("Kunde eksisterede ikke.");
-                String cName = view.strInput("Indtast kundenavn");
-                String cMail = view.strInput("Indtast mail");
+                String cName = view.strInput("Indtast kundenavn: ");
+                String cMail = view.strInput("Indtast mail: ");
                 tmpCust = new Customer(cName,cNum,cMail);
                 customers.add(tmpCust);
                 fh.saveCustomersToFile(customers);
                 break;
             }
         }
+        view.strInput("".trim()); //Fikser Scanner string bug
 
-
-        String orderComment = view.strInput("Bemærkning til ordren (tom hvis ingen)");
+        String orderComment;
+        orderComment = view.strInput("Bemærkning til ordren (tom hvis ingen): ");
 
         if(orderComment.equals("") || orderComment.isEmpty() || orderComment.isBlank()){
             orderComment = "Ingen bemærkninger";
         }
 
-        boolean inStore;
-        String inStoreQ = view.strInput("Afhentes i butikken? (Ja/Nej)").toLowerCase();
-            if(inStoreQ.equals("ja")){
-                inStore = true;
-            } else if (inStoreQ.equals("nej")){
-                inStore = false;
-            } else {
-                inStore = false;
-            }
+        boolean inStore = false;
+        String inStoreQ = view.strInput("Afhentes i butikken? (Ja/Nej): ").toLowerCase();
+        inStore = inStoreQ.equals("ja");
 
 
         Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment);
@@ -102,10 +116,10 @@ public class MainController {
 
     public void changeOrder(){
         System.out.println("## Ændre ordre ##");
-        int ordrenummer = view.intInput("Indtast ordrenummmer");
+        int ordrenummer = view.intInput("Indtast ordrenummmer: ");
 
         for(Ordre o:orders){
-            if(o.getOrderNumber()==ordrenummer){
+            if(o.getOrderNumber() == ordrenummer){
                 o.setDone(true);
             }
         }
@@ -128,38 +142,34 @@ public class MainController {
     }
 
     public void generateStats(){
-        System.out.println("## Se statistik ##");
+        System.out.println("\n### PIZZA STATISTIK ###");
+
+        ArrayList<String> stats = new ArrayList<>();
         double totalRev = 0.0;
+        int[] taeller = new int[menucard.getMenu().size()];
+        String filePath = "Export/" + LocalDate.now().toString() + "-statistik.csv";
 
         for(Ordre o:orders){
             totalRev += o.getPrice();
-        }
-        System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
-
-
-
-        int[] taeller = new int[menucard.getMenu().size()];
-        for(Ordre o:orders){
             for(Pizza p:o.getPizzas()){
                 taeller[p.getNumber()-1]++;
             }
-            
         }
 
-        ArrayList<String> stats = new ArrayList<>();
-
-        System.out.println("\n### PIZZA STATISTIK ###");
-        System.out.println("NAVN - ANTAL SOLGTE - TOTAL OMSÆTNING");
+        //System.out.println("NAVN - ANTAL SOLGTE - TOTAL OMSÆTNING");
         for(Pizza pz:menucard.getMenu()){
             int pzCount = taeller[pz.getNumber()-1];
             String str = pz.getName() + ";" + pzCount + ";" + pzCount*pz.getPrice();
             stats.add(str);
-            System.out.println(str.replace(";"," - "));
+            //System.out.println(str.replace(";"," - "));
         }
 
         fh.saveStatsToFile(stats);
-
         fh.saveOrdersToFile(orders);
+
+        System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
+        System.out.println("Statistik gemt: " + filePath+"\n");
+
 
         view.selectMenu();
     }

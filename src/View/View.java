@@ -15,7 +15,7 @@ public class View {
 
     public void selectMenu(){
         printMainMenu();
-        int menuSelect = intInput("Dit valg");
+        int menuSelect = intInput("Dit valg: ");
         switch (menuSelect){
             case 1:
                 ctrl.seeMenucard();
@@ -40,28 +40,28 @@ public class View {
     }
 
     private void printMainMenu(){
-        System.out.println("#####################");
+        System.out.println("\n#####################");
         System.out.println("1) Se menu");
         System.out.println("2) Opret ordre");
         System.out.println("3) Luk ordre");
         System.out.println("4) Se ordre");
         System.out.println("5) Se statistik");
         System.out.println("6) Afslut system");
-        System.out.println("#####################");
+        System.out.println("#####################\n");
     }
 
     public int intInput(String inputRequired){
-        System.out.print("\n" + inputRequired + ": ");
+        System.out.print("\n" + inputRequired);
         return input.nextInt();
     }
 
     public String strInput(String inputRequired){
-        System.out.print("\n" + inputRequired + ": ");
+        System.out.print("\n" + inputRequired);
         return input.nextLine();
     }
 
     protected double doubleInput(String inputRequired){
-        System.out.print("\n" + inputRequired + ": ");
+        System.out.print("\n" + inputRequired);
         return input.nextDouble();
     }
 

@@ -29,17 +29,16 @@ public class Pizza {
         return price;
     }
 
+    public String getFillingFormatted(){
+        return Arrays.toString(this.filling).replace("[","").replace("]","");
+    }
+
     public String getName() {
         return name;
     }
 
     @Override
     public String toString() {
-        return "\nPizza{"
-                + "\nnumber=" + number
-                + "\nname=" + name
-                + "\nprice=" + price
-                + "\nfilling=" + Arrays.toString(filling)
-                + "\n}";
+        return "\n" + number + ". " + name + ": " + Arrays.toString(filling) + "\n";
     }
 }

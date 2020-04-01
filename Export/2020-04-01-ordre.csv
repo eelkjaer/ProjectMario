@@ -1,33 +1,11 @@
 [
 Ordre 202001
-In store: true
-Klar tid: 09:27
-Kunde: Customer{Name='Emil Elkjær', phoneNo=60146057, Mail='cph-en93@cphbusiness.dk', prevOrder=27}
+Type: Afhentning
+Klar tid: 11:22
+Kunde: Emil Elkjær, 60146057 - Mail: cph-en93@cphbusiness.dk - Tidligere ordre: 37
 Pizzaer: [
-Pizza{
-number=2
-name=Amerikaner
-price=53.0
-filling=[tomatsauce, ost, oksefars, oregano]
-}, 
-Pizza{
-number=1
-name=Vesuvio
-price=57.0
-filling=[tomatsauce, ost, skinke, oregano]
-}, 
-Pizza{
-number=2
-name=Amerikaner
-price=53.0
-filling=[tomatsauce, ost, oksefars, oregano]
-}, 
-Pizza{
-number=2
-name=Amerikaner
-price=53.0
-filling=[tomatsauce, ost, oksefars, oregano]
-}]
-Pris: 216,00 kr
-Kommentar: Ingen bemærkninger
+2. Amerikaner: [tomatsauce, ost, oksefars, oregano]
+]
+Pris: 53,00 kr
+Kommentar: test
 ]

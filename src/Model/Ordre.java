@@ -30,6 +30,9 @@ public class Ordre {
         orderCounter++;
     }
 
+    /*
+     * Udregner ordrens samlet værdi.
+     */
     public double calculatePrice(ArrayList<Pizza> pizzas){
         double totalPrice = 0.0;
         for(Pizza p:pizzas){
@@ -38,6 +41,11 @@ public class Ordre {
         return totalPrice;
     }
 
+    /*
+     * Udregner klokkeslættet hvor ordren er færdig.
+     * Hvis i butikken: 15 minutter efter bestilling
+     * Hvis afhentning: 1 time efter bestilling
+     */
     public LocalDateTime calculateTime(boolean inStore){
         LocalDateTime now = LocalDateTime.now();
         if(inStore){
@@ -87,10 +95,17 @@ public class Ordre {
     @Override
     public String toString() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
+        String type;
+        if(inStore){
+            type="I butikken";
+        } else {
+            type="Afhentning";
+        }
+
         return "\nOrdre " + orderNumber
-                + "\nIn store: " + inStore
+                + "\nType: " + type
                 + "\nKlar tid: " + timestamp.format(format)
-                + "\nKunde: " + customer
+                + "\nKunde: " + customer.getName() + ", " + customer.getPhoneNo() + " - Mail: " + customer.getMail() + " - Tidligere ordre: " + customer.getPrevOrder()
                 + "\nPizzaer: " + pizzas
                 + "\nPris: " + String.format("%.2f kr",price)
                 + "\nKommentar: " + comment
