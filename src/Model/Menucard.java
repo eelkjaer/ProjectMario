@@ -19,6 +19,17 @@ public class Menucard {
         return this.menu;
     }
 
+    public void printMenu(){
+        for(Pizza p:menu){
+            System.out.println( //Printer et formatteret menukort.
+                    p.getNumber()
+                            + ". " + p.getName()
+                            + ": " + p.getFillingFormatted()
+                            + "...... " + p.getPrice()
+                            + ",-");
+        }
+    }
+
     public void createMenucard(String filePath) throws FileNotFoundException {
         setMenucard(fh.readMenuFromFile(filePath)); //Opretter et menu array fra filen.
 

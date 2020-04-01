@@ -19,18 +19,23 @@ public class View {
         int menuSelect = intInput("Dit valg: ");
         switch (menuSelect){ //Switch til menupunkter.
             case 1:
+                System.out.println("## Se menukort ##");
                 ctrl.seeMenucard();
                 break;
             case 2:
+                System.out.println("## Ny ordre ##");
                 ctrl.newOrder();
                 break;
             case 3:
+                System.out.println("## Ændre ordre ##");
                 ctrl.changeOrder();
                 break;
             case 4:
+                System.out.println("## Se ordre ##");
                 ctrl.getOrders();
                 break;
             case 5:
+                System.out.println("\n### PIZZA STATISTIK ###");
                 try {
                     ctrl.generateStats();
                 } catch (FileNotFoundException e) {
