@@ -1,3 +1,6 @@
+/*
+@author Andreas Bergmann (cph-ab435@cphbusiness.dk)
+ */
 package Model;
 
 import Controller.FileHandler;
