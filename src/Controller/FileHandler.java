@@ -113,9 +113,7 @@ public class FileHandler {
                 //System.out.println("IEO Error" + e.toString());
             }
         }
-
     }
-
     public void saveOrdersToFile(ArrayList<Ordre> orders){
         BufferedWriter buffwriter = null;
         LocalDate ldt = LocalDate.now();
@@ -141,6 +139,38 @@ public class FileHandler {
               //System.out.println("IEO Error" + e.toString());
           }
       }
+
+    }
+
+    public void saveStatsToFile(ArrayList<String> stats){
+        BufferedWriter buffwriter = null;
+        LocalDate ldt = LocalDate.now();
+        String fileName = ldt.toString() + "-statistik.csv";
+        String filePath = "Export/";
+
+
+        try{
+            buffwriter = new BufferedWriter(new FileWriter(new File(filePath+fileName)));
+            buffwriter.write("navn;antal;salg");
+            buffwriter.newLine();
+            for(String str: stats){
+                buffwriter.write(str);
+                buffwriter.newLine();
+            }
+        }catch(FileNotFoundException e){
+            //System.out.println("File not found!");
+        }catch(IOException e){
+            //System.out.println("Error" + e.toString());
+        }
+        finally{
+            try{
+                if(buffwriter != null){
+                    buffwriter.close();
+                }
+            }catch(IOException e){
+                //System.out.println("IEO Error" + e.toString());
+            }
+        }
 
     }
 

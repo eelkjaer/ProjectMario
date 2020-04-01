@@ -3,10 +3,54 @@
  */
 package View;
 import java.util.Scanner;
+import Controller.MainController;
 
 public class View {
-
     private Scanner input = new Scanner(System.in);
+    private MainController ctrl = null;
+
+    private int menuSelect;
+
+    public View(MainController control){
+        this.ctrl = control;
+    }
+
+    public void selectMenu(){
+        printMainMenu();
+        this.menuSelect = intInput("Dit valg");
+        switch (this.menuSelect){
+            case 1:
+                ctrl.seeMenucard();
+                break;
+            case 2:
+                ctrl.newOrder();
+                break;
+            case 3:
+                ctrl.changeOrder();
+                break;
+            case 4:
+                ctrl.getOrders();
+                break;
+            case 5:
+                ctrl.generateStats();
+                break;
+            case 6:
+                System.exit(0);
+            default:
+                selectMenu();
+        }
+    }
+
+    private void printMainMenu(){
+        System.out.println("#####################");
+        System.out.println("1) Se menu");
+        System.out.println("2) Opret ordre");
+        System.out.println("3) Luk ordre");
+        System.out.println("4) Se ordre");
+        System.out.println("5) Se statistik");
+        System.out.println("6) Afslut system");
+        System.out.println("#####################");
+    }
 
     public int intInput(String inputRequired){
         System.out.print("\n" + inputRequired + ": ");
@@ -15,8 +59,8 @@ public class View {
 
     public String strInput(String inputRequired){
         System.out.print("\n" + inputRequired + ": ");
-        input.nextLine();
-        return input.nextLine();
+        String str = input.nextLine();
+        return str;
     }
 
     protected double doubleInput(String inputRequired){

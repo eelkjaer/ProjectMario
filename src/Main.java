@@ -4,15 +4,15 @@
 @author Andreas Bergmann (cph-ab435@cphbusiness.dk)
 @author Jacob Lange Nielsen (cph-jn352@cphbusiness.dk)
  */
-import Model.Controller;
+import Controller.MainController;
 
 import java.io.FileNotFoundException;
 
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        Controller controller = new Controller();
-        controller.runApplication();
+        MainController mainController = new MainController();
+        mainController.runApplication();
 
     }
 }
