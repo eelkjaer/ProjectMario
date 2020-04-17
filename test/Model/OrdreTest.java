@@ -43,7 +43,7 @@ Pizza pizza2;
 
     @Test
     public void getPrice() {
-        double expected = 120;
+        double expected = 125;
         double actual = ordre.getPrice();
 
         assertEquals(expected, actual);

@@ -17,15 +17,18 @@ public class MainController {
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
     private final Menucard menucard = new Menucard();
+    private SQLController sql = new SQLController("jdbc:mysql://104.248.135.65/mariodb", "java", "java", false);
 
-    public MainController() {
+    public MainController() throws ClassNotFoundException {
 
     }
 
     public void runApplication() throws FileNotFoundException {
-        customers = fh.readCustomersFromFile("Data/customers.csv"); //Importerer alle kunderne til memory.
+        //customers = fh.readCustomersFromFile("Data/customers.csv"); //Importerer alle kunderne til memory.
+        customers = sql.importCustomers();
 
-        menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
+        //menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
+        menucard.setMenucard(sql.importPizzas());
 
         String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
         if(fh.doesFileExist(statsFilePath)) {
