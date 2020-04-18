@@ -17,9 +17,9 @@ public class MainController {
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
     private final Menucard menucard = new Menucard();
-    private SQLController sql = new SQLController("jdbc:mysql://104.248.135.65/mariodb", "java", "java", false);
+    private final SQLController sql = new SQLController("jdbc:mysql://104.248.135.65/mariodb", "java", "java", false);
 
-    public MainController() throws ClassNotFoundException {
+    public MainController() {
 
     }
 

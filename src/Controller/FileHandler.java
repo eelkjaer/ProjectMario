@@ -22,14 +22,10 @@ public class FileHandler {
     //
     private static final boolean debug = false;
 
-    public boolean doesFileExist(String filePath) throws FileNotFoundException {
+    public boolean doesFileExist(String filePath) {
         File fh = new File(filePath);
 
-        if(fh.exists()){
-            return true;
-        } else {
-            return false;
-        }
+        return fh.exists();
     }
 
     public ArrayList<Pizza> readMenuFromFile(String filePath) throws FileNotFoundException{
@@ -115,7 +111,7 @@ public class FileHandler {
                     int antal = Integer.parseInt(lineArr[1]);
                     double salg = Double.parseDouble(lineArr[2]);
 
-                    String tmpStat = new String(navn + ";" + antal + ";" + salg);
+                    String tmpStat = navn + ";" + antal + ";" + salg;
 
                     tmpStats.add(tmpStat);
                 } catch (Exception e){

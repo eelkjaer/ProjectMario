@@ -5,7 +5,6 @@ package Model;
 
 public class Customer {
 
-    private int customerId;
     private final String name;
     private int phoneNo;
     private final String mail;
@@ -28,7 +27,6 @@ public class Customer {
     }
 
     public Customer(int id, String name, int phoneNo, String mail, int prevOrder){
-        this.customerId = id;
         this.name = name;
         this.phoneNo = phoneNo;
         this.mail = mail;

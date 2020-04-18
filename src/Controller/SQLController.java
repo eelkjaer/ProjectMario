@@ -17,7 +17,7 @@ public class SQLController {
     private String dbPsw;
     private Connection conn;
 
-    public SQLController(String myUrl, String dbUser, String dbPsw, boolean SSL) throws ClassNotFoundException {
+    public SQLController(String myUrl, String dbUser, String dbPsw, boolean SSL) {
         this.myUrl = myUrl;
         this.dbUser = dbUser;
         this.dbPsw = dbPsw;
