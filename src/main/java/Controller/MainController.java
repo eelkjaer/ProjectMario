@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MainController {
 
     private final FileHandler fh = new FileHandler();
-    private final ArrayList<Ordre> orders = new ArrayList<>();
+    private ArrayList<Ordre> orders = new ArrayList<>();
     private ArrayList<String> stats = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
@@ -30,11 +30,14 @@ public class MainController {
     public void runApplication() throws FileNotFoundException {
         customers = new CustomerMapper().getAllCustomers();
         menucard.setMenucard(new MenuMapper().getMenucard());
+        orders = ordreMapper.getAllOrders(customers, menucard.getMenu());
 
-        String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
+       /*
+       String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
         if(fh.doesFileExist(statsFilePath)) {
             stats = fh.readStatsFromFile(statsFilePath);
         }
+        */
 
         view.selectMenu(); //Starter menu loop.
     }
@@ -103,11 +106,10 @@ public class MainController {
         Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment); //Opretter midlertidigt ordre objekt.
 
 
-        orders.add(tmpOrder); //Tilføjer objektet til arrayet
-        ordreMapper.createNewOrder(tmpOrder);
+        orders.add(ordreMapper.createNewOrder(tmpOrder)); //Tilføjer objektet til db og derefter arrayet
         System.out.println(tmpOrder);
 
-        fh.saveOrdersToFile(orders); //Gemmer ordren i ordrefilen.
+        //fh.saveOrdersToFile(orders); //Gemmer ordren i ordrefilen.
 
         view.selectMenu();
     }
@@ -131,12 +133,16 @@ public class MainController {
      * Viser alle ordre på skærmen.
      */
     public void getOrders(){
+        orders.clear();
+        orders = ordreMapper.getAllOrders(customers,menucard.getMenu());
         if(orders.isEmpty()){
             System.out.println("Der er ingen bestillinger!");
         } else {
             for(Ordre o:orders){
                 if(!o.isDone()){
                     System.out.println(o);
+                } else {
+                    System.out.println("'Ordre " + o.getOrderNumber() + "' er færdig!");
                 }
             }
         }

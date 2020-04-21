@@ -30,6 +30,18 @@ public class Ordre {
         orderCounter++;
     }
 
+    //From MySQL
+    public Ordre(int orderNumber, boolean inStore, boolean isDone, LocalDateTime timestamp, Customer customer, ArrayList<Pizza> pizzas, double price, String comment) {
+        this.orderNumber = orderNumber;
+        this.inStore = inStore;
+        this.isDone = isDone;
+        this.timestamp = timestamp;
+        this.customer = customer;
+        this.pizzas = pizzas;
+        this.price = price;
+        this.comment = comment;
+    }
+
     /*
      * Udregner ordrens samlet værdi ved at bruge prisen for hver pizza.
      */
@@ -55,6 +67,9 @@ public class Ordre {
         }
     }
 
+    public void setOrderNumber(int id){
+        this.orderNumber = id;
+    }
     public int getOrderNumber() {
         return orderNumber;
     }

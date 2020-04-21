@@ -3,6 +3,8 @@
  */
 package Model;
 
+import java.util.ArrayList;
+
 public class Customer {
 
     private int id;
@@ -18,6 +20,10 @@ public class Customer {
         this.phoneNo = phoneNo;
         this.mail = mail;
         this.prevOrder++;
+    }
+
+    public Customer(){
+
     }
 
     public Customer(String name, int phoneNo, String mail, int prevOrder){
@@ -60,6 +66,18 @@ public class Customer {
 
     public int getId(){
         return this.id;
+    }
+
+
+    public Customer getCustomerById(int customerId, ArrayList<Customer> customers) {
+        Customer foundCustomer = null;
+        for (Customer cust:customers) {
+            if(cust.getId()==customerId){
+                foundCustomer = cust;
+                break;
+            }
+        }
+        return foundCustomer;
     }
 
     public void setName(String name){

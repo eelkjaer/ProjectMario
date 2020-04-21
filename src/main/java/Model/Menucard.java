@@ -30,6 +30,17 @@ public class Menucard {
         }
     }
 
+    public Pizza getPizzaById(int pizzaId) {
+        Pizza foundPizza = null;
+        for (Pizza p:menu) {
+            if(p.getNumber() == pizzaId){
+                foundPizza = p;
+                break;
+            }
+        }
+        return foundPizza;
+    }
+
     public void createMenucard(String filePath) throws FileNotFoundException {
         setMenucard(fh.readMenuFromFile(filePath)); //Opretter et menu array fra filen.
 

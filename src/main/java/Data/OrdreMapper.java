@@ -3,44 +3,71 @@
  */
 package Data;
 
+import Model.Customer;
 import Model.Ordre;
 import Model.Pizza;
 import Util.DBConnector;
-
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class OrdreMapper {
-    /* TODO: Hent alle ordre fra MySQL
-    public ArrayList<Ordre> getAllOrders(){
+
+    public ArrayList<Ordre> getAllOrders(ArrayList<Customer> customers, ArrayList<Pizza> pizzas){
         ArrayList<Ordre> orders = new ArrayList<>();
 
         Connection connection = DBConnector.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
 
-            String query = "SELECT \n" +
-                    "\tcustomers.id, \n" +
-                    "\tcustomers.name, \n" +
-                    "\tcustomers.phone, \n" +
-                    "\tcustomers.email,\n" +
-                    "\t(SELECT COUNT(*) FROM orders WHERE orders.customerId=customers.id) AS \"prevOrders\"\n" +
-                    "\n" +
-                    "FROM customers\n" +
-                    "ORDER BY customers.id;";
+            String query = "SELECT orders.id, " +
+                    "orders.pickup, " +
+                    "orders.customerId, " +
+                    "orders.readyTime, " +
+                    "orders.status, " +
+                    "orders.comment, " +
+                    "orders.totalPrice, " +
+                    "GROUP_CONCAT(DISTINCT ordersPizza.pizzaId SEPARATOR \",\") " +
+                    "AS \"pizzaer\"\n" +
+                    "FROM orders\n" +
+                    "INNER JOIN ordersPizza ON ordersPizza.orderId = orders.id\n" +
+                    "GROUP BY orders.id;";
 
             ResultSet resultset = statement.executeQuery(query);
 
             while(resultset.next()) {
-                int customerId = resultset.getInt("customers.id");
-                String customerName = resultset.getString("customers.name");
-                int customerPhone = resultset.getInt("customers.phone");
-                String customerEmail = resultset.getString("customers.email");
-                int customerOrders = resultset.getInt("prevOrders");
+                int orderId = resultset.getInt("orders.id");
+                boolean inStore = resultset.getBoolean("orders.pickup");
+                int customerId = resultset.getInt("orders.customerId");
+                Customer customer = new Customer().getCustomerById(customerId, customers);
+                LocalDateTime readyTime = LocalDateTime.of(LocalDate.now(),resultset.getTime("orders.readyTime").toLocalTime());
+                boolean isDone;
+                String status = resultset.getString("orders.status");
+                if(status.equals("done")){
+                    isDone = true;
+                } else {
+                    isDone = false;
+                }
+                double totalPrice = resultset.getDouble("orders.totalPrice");
+                String comment = resultset.getString("orders.comment");
 
+                String pizzaListe[] = resultset.getString("pizzaer").split(",");
+                ArrayList<Pizza> tmpPizzas = new ArrayList<>();
+                Pizza foundPizza = null;
 
-                Ordre ordre = null;
+                for(int i=0;i<pizzaListe.length;i++){
+
+                    for (Pizza p:pizzas) {
+                        if(p.getNumber() == Integer.parseInt(pizzaListe[i])){
+                            foundPizza = p;
+                            tmpPizzas.add(foundPizza);
+                            break;
+                        }
+                    }
+                }
+
+                Ordre ordre = new Ordre(orderId,inStore, isDone,readyTime,customer,tmpPizzas,totalPrice,comment);
 
                 orders.add(ordre);
             }
@@ -49,9 +76,9 @@ public class OrdreMapper {
         }
         return orders;
     }
-    */
 
-    public void createNewOrder(Ordre ordre){
+
+    public Ordre createNewOrder(Ordre ordre){
         int ordreId = ordre.getOrderNumber();
         boolean inStore = ordre.isInStore();
         int customerId = ordre.getCustomer().getId();
@@ -64,17 +91,20 @@ public class OrdreMapper {
         Connection connection = DBConnector.getInstance().getConnection();
         try {
             //Indsætter ordren i tabellen "Ordre"
-            String query = "INSERT INTO orders(id,pickup,customerId,readyTime,status,comment,totalPrice) VALUES (?,?,?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            String query = "INSERT INTO orders(pickup,customerId,readyTime,status,comment,totalPrice) VALUES (?,?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 
-            statement.setInt(1,ordreId);
-            statement.setBoolean(2,inStore);
-            statement.setInt(3,customerId);
-            statement.setTime(4,Time.valueOf(time.toLocalTime()));
-            statement.setString(5,status);
-            statement.setString(6,comment);
-            statement.setDouble(7,totalPrice);
-            statement.execute();
+            statement.setBoolean(1,inStore);
+            statement.setInt(2,customerId);
+            statement.setTime(3,Time.valueOf(time.toLocalTime()));
+            statement.setString(4,status);
+            statement.setString(5,comment);
+            statement.setDouble(6,totalPrice);
+            statement.executeUpdate();
+            ResultSet tableKeys = statement.getGeneratedKeys();
+            tableKeys.next();
+            ordreId = tableKeys.getInt(1);
+            ordre.setOrderNumber(ordreId);
 
             //Indsætter pizzaerne til ordren i samføjningstabellen "ordersPizza"
             for(Pizza p: ordre.getPizzas()){
@@ -89,6 +119,8 @@ public class OrdreMapper {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+
+        return ordre;
     }
 
     public void setAsDone(Ordre ordre){
