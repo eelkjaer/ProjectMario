@@ -7,27 +7,24 @@ import Data.MenuMapper;
 import Data.OrdreMapper;
 import Model.*;
 import View.View;
-
-import java.io.FileNotFoundException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainController {
 
-    private final FileHandler fh = new FileHandler();
+    //private final FileHandler fh = new FileHandler();
     private ArrayList<Ordre> orders = new ArrayList<>();
     private ArrayList<String> stats = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
     private final Menucard menucard = new Menucard();
-    private OrdreMapper ordreMapper = new OrdreMapper();
+    private final OrdreMapper ordreMapper = new OrdreMapper();
 
 
     public MainController() {
 
     }
 
-    public void runApplication() throws FileNotFoundException {
+    public void runApplication(){
         customers = new CustomerMapper().getAllCustomers();
         menucard.setMenucard(new MenuMapper().getMenucard());
         orders = ordreMapper.getAllOrders(customers, menucard.getMenu());
@@ -84,7 +81,7 @@ public class MainController {
                 customers.add(tmpCust);
                 new CustomerMapper().createNewCustomer(tmpCust);
             }
-            fh.saveCustomersToFile(customers);
+            //fh.saveCustomersToFile(customers);
             break;
         }
 
@@ -154,6 +151,13 @@ public class MainController {
      * Såfremt filen ikke findes oprettet en ny
      * Såfremt den findes, hentes data ind.
      */
+
+    public void generateStats() {
+        ordreMapper.getPizzaStats();
+        view.selectMenu();
+    }
+
+    /*
     public void generateStats() throws FileNotFoundException {
         ArrayList<String> tmpStats = new ArrayList<>();
 
@@ -198,13 +202,14 @@ public class MainController {
             counter++;
         }
 
-        fh.saveStatsToFile(tmpStats); //Gemmer arrayet i en CSV fil, så det kan åbnes i f.eks. Excel
-        fh.saveOrdersToFile(orders); //Gemmer alle ordre i en CSV fil.
+        //fh.saveStatsToFile(tmpStats); //Gemmer arrayet i en CSV fil, så det kan åbnes i f.eks. Excel
+        //fh.saveOrdersToFile(orders); //Gemmer alle ordre i en CSV fil.
 
         System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
-        System.out.println("Statistik gemt: " + filePath+"\n");
+        //System.out.println("Statistik gemt: " + filePath+"\n");
 
 
         view.selectMenu();
     }
+     */
 }

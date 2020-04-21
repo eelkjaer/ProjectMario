@@ -6,11 +6,10 @@
  */
 import Controller.MainController;
 
-import java.io.FileNotFoundException;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
+    public static void main(String[] args)  {
         MainController mainController = new MainController();
         mainController.runApplication();
 

@@ -2,7 +2,6 @@
 @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
  */
 package View;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import Controller.MainController;
 
@@ -36,11 +35,7 @@ public class View {
                 break;
             case 5:
                 System.out.println("\n### PIZZA STATISTIK ###");
-                try {
-                    ctrl.generateStats();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                ctrl.generateStats();
                 break;
             case 6:
                 System.exit(0); //Lukker applikationen helt.

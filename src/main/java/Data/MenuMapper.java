@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class MenuMapper {
 
     public ArrayList<Pizza> getMenucard(){
-         ArrayList<Pizza> pizzas = new ArrayList<>();
+         ArrayList<Pizza> pizzas;
 
          pizzas = getAllPizzas();
 

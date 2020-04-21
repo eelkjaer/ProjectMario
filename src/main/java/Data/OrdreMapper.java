@@ -44,22 +44,18 @@ public class OrdreMapper {
                 LocalDateTime readyTime = LocalDateTime.of(LocalDate.now(),resultset.getTime("orders.readyTime").toLocalTime());
                 boolean isDone;
                 String status = resultset.getString("orders.status");
-                if(status.equals("done")){
-                    isDone = true;
-                } else {
-                    isDone = false;
-                }
+                isDone = status.equals("done");
                 double totalPrice = resultset.getDouble("orders.totalPrice");
                 String comment = resultset.getString("orders.comment");
 
-                String pizzaListe[] = resultset.getString("pizzaer").split(",");
+                String[] pizzaListe = resultset.getString("pizzaer").split(",");
                 ArrayList<Pizza> tmpPizzas = new ArrayList<>();
-                Pizza foundPizza = null;
+                Pizza foundPizza;
 
-                for(int i=0;i<pizzaListe.length;i++){
+                for (String s : pizzaListe) {
 
-                    for (Pizza p:pizzas) {
-                        if(p.getNumber() == Integer.parseInt(pizzaListe[i])){
+                    for (Pizza p : pizzas) {
+                        if (p.getNumber() == Integer.parseInt(s)) {
                             foundPizza = p;
                             tmpPizzas.add(foundPizza);
                             break;
@@ -79,7 +75,7 @@ public class OrdreMapper {
 
 
     public Ordre createNewOrder(Ordre ordre){
-        int ordreId = ordre.getOrderNumber();
+        int ordreId;
         boolean inStore = ordre.isInStore();
         int customerId = ordre.getCustomer().getId();
         LocalDateTime time = ordre.getTimestamp();
@@ -137,6 +133,35 @@ public class OrdreMapper {
             System.out.println("Error: " + e.getMessage());
         }
         ordre.setDone(true);
+    }
+
+
+    public void getPizzaStats(){
+        Connection connection = DBConnector.getInstance().getConnection();
+        try {
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT menucard.navn,menucard.pris ,pizzaId AS nummer, COUNT(pizzaId) AS antal\n" +
+                    "FROM ordersPizza\n" +
+                    "INNER JOIN menucard ON ordersPizza.pizzaId = menucard.id\n" +
+                    "GROUP BY pizzaId\n" +
+                    "ORDER BY antal DESC";
+
+            ResultSet resultset = statement.executeQuery(query);
+
+            while(resultset.next()) {
+                int nummer = resultset.getInt("nummer");
+                int antal = resultset.getInt("antal");
+                double pris = resultset.getDouble("pris");
+                String navn = resultset.getString("navn");
+
+                pris = antal * pris;
+
+                System.out.print("(nr." + nummer + ") " + navn + " - " + antal + " stk solgt = " + pris + "kr\n");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 }
