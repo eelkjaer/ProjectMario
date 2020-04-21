@@ -7,10 +7,10 @@ import java.util.Arrays;
 
 
 public class Pizza {
-    private final int number;
-    private final String name;
-    private final double price;
-    private final String[] filling;
+    private int number;
+    private String name;
+    private double price;
+    private String[] filling;
 
     public Pizza(int number, String name, double price, String[] filling){
         this.number = number;
@@ -18,6 +18,22 @@ public class Pizza {
         this.price = price;
         this.filling = filling;
 
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setFilling(String[] filling) {
+        this.filling = filling;
     }
 
     public int getNumber(){

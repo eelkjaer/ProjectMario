@@ -9,14 +9,14 @@ import java.util.ArrayList;
 
 public class Ordre {
     private static int orderCounter = 202001;
-    private final int orderNumber;
-    private final boolean inStore;
+    private int orderNumber;
+    private boolean inStore;
     private boolean isDone;
-    private final LocalDateTime timestamp;
-    private final Customer customer;
-    private final ArrayList<Pizza> pizzas;
-    private final double price;
-    private final String comment;
+    private LocalDateTime timestamp;
+    private Customer customer;
+    private ArrayList<Pizza> pizzas;
+    private double price;
+    private String comment;
 
     public Ordre(boolean inStore, Customer customer, ArrayList<Pizza> pizzas, String comment) {
         this.orderNumber = orderCounter;

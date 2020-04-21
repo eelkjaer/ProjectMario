@@ -5,9 +5,10 @@ package Model;
 
 public class Customer {
 
-    private final String name;
+    private int id;
+    private String name;
     private int phoneNo;
-    private final String mail;
+    private String mail;
     private int prevOrder = 0;
 
     //Construktor
@@ -27,6 +28,7 @@ public class Customer {
     }
 
     public Customer(int id, String name, int phoneNo, String mail, int prevOrder){
+        this.id = id;
         this.name = name;
         this.phoneNo = phoneNo;
         this.mail = mail;
@@ -40,10 +42,6 @@ public class Customer {
         return phoneNo;
     }
 
-    public void setPhoneNo(int phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
     public int getPrevOrder() {
         return prevOrder;
     }
@@ -54,6 +52,30 @@ public class Customer {
 
     public String getMail() {
         return mail;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setPhoneNo(int phoneNo){
+        this.phoneNo = phoneNo;
+    }
+
+    public void setMail(String mail){
+        this.mail = mail;
+    }
+
+    public void setPrevOrder(int orders){
+        this.prevOrder = orders;
     }
 
     public void addNewOrder() {

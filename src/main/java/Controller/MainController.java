@@ -2,6 +2,9 @@
 @author Emil Elkjær Nielsen (cph-en93@cphbusiness.dk)
  */
 package Controller;
+import Data.CustomerMapper;
+import Data.MenuMapper;
+import Data.OrdreMapper;
 import Model.*;
 import View.View;
 
@@ -17,18 +20,16 @@ public class MainController {
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
     private final Menucard menucard = new Menucard();
-    private final SQLController sql = new SQLController("jdbc:mysql://104.248.135.65/mariodb", "java", "java", false);
+    private OrdreMapper ordreMapper = new OrdreMapper();
+
 
     public MainController() {
 
     }
 
     public void runApplication() throws FileNotFoundException {
-        //customers = fh.readCustomersFromFile("Data/customers.csv"); //Importerer alle kunderne til memory.
-        customers = sql.importCustomers();
-
-        //menucard.createMenucard("Data/menu.csv"); //Importerer alle pizzaer til memory.
-        menucard.setMenucard(sql.importPizzas());
+        customers = new CustomerMapper().getAllCustomers();
+        menucard.setMenucard(new MenuMapper().getMenucard());
 
         String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
         if(fh.doesFileExist(statsFilePath)) {
@@ -78,6 +79,7 @@ public class MainController {
                 String cMail = view.strInput("Indtast mail: ");
                 tmpCust = new Customer(cName,cNum,cMail);
                 customers.add(tmpCust);
+                new CustomerMapper().createNewCustomer(tmpCust);
             }
             fh.saveCustomersToFile(customers);
             break;
@@ -86,7 +88,7 @@ public class MainController {
         String orderComment;
         orderComment = view.strInput("Bemærkning til ordren (tom hvis ingen): ");
 
-        if(orderComment.equals("") || orderComment.isEmpty() || orderComment.isBlank()){ //Sikre at variablen aldrig er null eller tom.
+        if(orderComment.equals("") || orderComment.isEmpty()){ //Sikre at variablen aldrig er null eller tom.
             orderComment = "Ingen bemærkninger";
         }
 
@@ -102,6 +104,7 @@ public class MainController {
 
 
         orders.add(tmpOrder); //Tilføjer objektet til arrayet
+        ordreMapper.createNewOrder(tmpOrder);
         System.out.println(tmpOrder);
 
         fh.saveOrdersToFile(orders); //Gemmer ordren i ordrefilen.
@@ -117,7 +120,7 @@ public class MainController {
 
         for(Ordre o:orders){
             if(o.getOrderNumber() == ordrenummer){
-                o.setDone(true);
+                ordreMapper.setAsDone(o);
             }
         }
         view.selectMenu();
@@ -129,7 +132,7 @@ public class MainController {
      */
     public void getOrders(){
         if(orders.isEmpty()){
-            System.out.println("Der er ingen åbne bestillinger!");
+            System.out.println("Der er ingen bestillinger!");
         } else {
             for(Ordre o:orders){
                 if(!o.isDone()){
