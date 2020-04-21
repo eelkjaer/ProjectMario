@@ -81,9 +81,9 @@ public class OrdreMapper {
                 String query2 = "INSERT INTO ordersPizza(orderId,pizzaId) VALUES (?,?)";
                 PreparedStatement statement2 = connection.prepareStatement(query2);
 
-                statement.setInt(1,ordreId);
-                statement.setInt(2,p.getNumber());
-                statement.execute();
+                statement2.setInt(1,ordreId);
+                statement2.setInt(2,p.getNumber());
+                statement2.execute();
             }
 
         } catch (SQLException e) {
