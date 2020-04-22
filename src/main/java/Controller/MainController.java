@@ -133,7 +133,7 @@ public class MainController {
                 if(!o.isDone()){
                     System.out.println(o);
                 } else {
-                    System.out.println("'Ordre " + o.getOrderNumber() + "' er færdig!");
+                    //System.out.println("'Ordre " + o.getOrderNumber() + "' er færdig!");
                 }
             }
         }
