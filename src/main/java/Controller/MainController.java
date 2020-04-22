@@ -147,7 +147,17 @@ public class MainController {
      * Såfremt den findes, hentes data ind.
      */
     public void generateStats() {
-        ordreMapper.getPizzaStats("salg");
+        System.out.println("Sorter efter: (Standard: Efter omsætning)");
+        System.out.println("1) Efter omsætning");
+        System.out.println("2) Efter antal solgte");
+        int select = view.intInput("Indtast dit valg: ");
+        if(select==1){
+            ordreMapper.getPizzaStats("salg");
+        } else if (select==2){
+            ordreMapper.getPizzaStats("antal");
+        } else {
+            ordreMapper.getPizzaStats("salg");
+        }
 
         view.selectMenu();
     }
