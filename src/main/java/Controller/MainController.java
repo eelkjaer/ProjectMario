@@ -153,7 +153,7 @@ public class MainController {
      */
 
     public void generateStats() {
-        ordreMapper.getPizzaStats();
+        ordreMapper.getPizzaStats("salg");
         view.selectMenu();
     }
 

@@ -136,26 +136,33 @@ public class OrdreMapper {
     }
 
 
-    public void getPizzaStats(){
+    /**
+     * @param sort "salg" = pizza med højest omsætning
+     *             "antal" = mest solgte pizza på antal
+     */
+    public void getPizzaStats(String sort){
         Connection connection = DBConnector.getInstance().getConnection();
+
+        if(!sort.equals("salg") || !sort.equals("antal")){
+            sort = "salg";
+        }
+
         try {
             Statement statement = connection.createStatement();
 
-            String query = "SELECT menucard.navn,menucard.pris ,pizzaId AS nummer, COUNT(pizzaId) AS antal\n" +
+            String query = "SELECT menucard.navn, ordersPizza.pizzaId as nummer, COUNT(ordersPizza.pizzaId) AS antal, menucard.pris * COUNT(ordersPizza.pizzaId) as salg\n" +
                     "FROM ordersPizza\n" +
                     "INNER JOIN menucard ON ordersPizza.pizzaId = menucard.id\n" +
                     "GROUP BY pizzaId\n" +
-                    "ORDER BY antal DESC";
+                    "ORDER BY " + sort + " DESC";
 
             ResultSet resultset = statement.executeQuery(query);
 
             while(resultset.next()) {
                 int nummer = resultset.getInt("nummer");
                 int antal = resultset.getInt("antal");
-                double pris = resultset.getDouble("pris");
+                double pris = resultset.getDouble("salg");
                 String navn = resultset.getString("navn");
-
-                pris = antal * pris;
 
                 System.out.print("(nr." + nummer + ") " + navn + " - " + antal + " stk solgt = " + pris + "kr\n");
             }
