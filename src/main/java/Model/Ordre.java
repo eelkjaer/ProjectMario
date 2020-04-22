@@ -117,6 +117,17 @@ public class Ordre {
             type="Afhentning";
         }
 
+        if(customer==null){ //Failsafe hvis der sker anormale ændringer i databasen
+            return "\nOrdre " + orderNumber
+                    + "\nType: " + type
+                    + "\nKlar tid: " + timestamp.format(format)
+                    + "\nKunde: Anonym"
+                    + "\nPizzaer: " + pizzas
+                    + "\nPris: " + String.format("%.2f kr",price)
+                    + "\nKommentar: " + comment
+                    + "\n";
+        }
+
         return "\nOrdre " + orderNumber
                 + "\nType: " + type
                 + "\nKlar tid: " + timestamp.format(format)

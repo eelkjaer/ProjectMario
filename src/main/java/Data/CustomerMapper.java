@@ -48,22 +48,25 @@ public class CustomerMapper {
     }
 
     public void createNewCustomer(Customer customer){
-        int id = customer.getId();
+        int id;
         String name = customer.getName();
         int phone = customer.getPhoneNo();
         String mail = customer.getMail();
 
         Connection connection = DBConnector.getInstance().getConnection();
         try {
-            String query = "INSERT INTO customers(id, name, phone, email) VALUES (?,?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            String query = "INSERT INTO customers(name, phone, email) VALUES (?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 
-            statement.setInt(1,id);
-            statement.setString(2,name);
-            statement.setInt(3,phone);
-            statement.setString(4,mail);
+            statement.setString(1,name);
+            statement.setInt(2,phone);
+            statement.setString(3,mail);
+            statement.executeUpdate();
+            ResultSet tableKeys = statement.getGeneratedKeys();
+            tableKeys.next();
+            id = tableKeys.getInt(1);
+            customer.setId(id);
 
-            statement.execute();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }

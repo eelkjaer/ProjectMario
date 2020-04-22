@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class MainController {
 
     private ArrayList<Ordre> orders = new ArrayList<>();
-    private ArrayList<String> stats = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
     private final View view = new View(this);
     private final Menucard menucard = new Menucard();
@@ -23,10 +22,14 @@ public class MainController {
 
     }
 
-    public void runApplication(){
+    public void refreshData(){
         customers = new CustomerMapper().getAllCustomers();
         menucard.setMenucard(new MenuMapper().getMenucard());
         orders = ordreMapper.getAllOrders(customers, menucard.getMenu());
+    }
+
+    public void runApplication(){
+        refreshData();
 
         view.selectMenu(); //Starter menu loop.
     }
@@ -113,8 +116,8 @@ public class MainController {
                 ordreMapper.setAsDone(o);
             }
         }
-        view.selectMenu();
 
+        view.selectMenu();
     }
 
     /*
@@ -134,6 +137,7 @@ public class MainController {
                 }
             }
         }
+
         view.selectMenu();
     }
 
@@ -142,9 +146,9 @@ public class MainController {
      * Såfremt filen ikke findes oprettet en ny
      * Såfremt den findes, hentes data ind.
      */
-
     public void generateStats() {
         ordreMapper.getPizzaStats("salg");
+
         view.selectMenu();
     }
 

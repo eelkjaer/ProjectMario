@@ -14,6 +14,7 @@ public class View {
     }
 
     public void selectMenu(){
+        ctrl.refreshData();
         printMainMenu(); //Printer oversigt med menupunkter.
         int menuSelect = intInput("Dit valg: ");
         switch (menuSelect){ //Switch til menupunkter.
