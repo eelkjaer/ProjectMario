@@ -64,16 +64,18 @@ public class MainController {
                 tmpCust = c;
                 tmpCust.addNewOrder();
                 view.strInput("".trim()); //Fikser Scanner string bug
-            } else { //Hvis kunden ikke eksisterer, tastes ekstra info og kunden gemmes både i memory og i databasen.
-                System.out.println("Kunde eksisterede ikke.");
-                view.strInput("".trim()); //Fikser Scanner string bug
-                String cName = view.strInput("Indtast kundenavn: ");
-                String cMail = view.strInput("Indtast mail: ");
-                tmpCust = new Customer(cName,cNum,cMail);
-                customers.add(tmpCust);
-                new CustomerMapper().createNewCustomer(tmpCust);
+                break;
             }
-            break;
+        }
+        if(tmpCust == null){
+            //Hvis kunden ikke eksisterer, tastes ekstra info og kunden gemmes både i memory og i databasen.
+            System.out.println("Kunde eksisterede ikke.");
+            view.strInput("".trim()); //Fikser Scanner string bug
+            String cName = view.strInput("Indtast kundenavn: ");
+            String cMail = view.strInput("Indtast mail: ");
+            tmpCust = new Customer(cName,cNum,cMail);
+            customers.add(tmpCust);
+            new CustomerMapper().createNewCustomer(tmpCust);
         }
 
         String orderComment;
