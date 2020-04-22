@@ -158,14 +158,18 @@ public class OrdreMapper {
 
             ResultSet resultset = statement.executeQuery(query);
 
+            double total = 0.0;
+
             while(resultset.next()) {
                 int nummer = resultset.getInt("nummer");
                 int antal = resultset.getInt("antal");
                 double pris = resultset.getDouble("salg");
                 String navn = resultset.getString("navn");
+                total += pris;
 
                 System.out.print("(nr." + nummer + ") " + navn + " - " + antal + " stk solgt = " + pris + "kr\n");
             }
+            System.out.println(String.format("%nTotal omsætning: %.2f kr%n",total));
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }

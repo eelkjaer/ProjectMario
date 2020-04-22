@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class MainController {
 
-    //private final FileHandler fh = new FileHandler();
     private ArrayList<Ordre> orders = new ArrayList<>();
     private ArrayList<String> stats = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
@@ -28,13 +27,6 @@ public class MainController {
         customers = new CustomerMapper().getAllCustomers();
         menucard.setMenucard(new MenuMapper().getMenucard());
         orders = ordreMapper.getAllOrders(customers, menucard.getMenu());
-
-       /*
-       String statsFilePath = "Export/"+ LocalDate.now().toString() + "-statistik.csv";
-        if(fh.doesFileExist(statsFilePath)) {
-            stats = fh.readStatsFromFile(statsFilePath);
-        }
-        */
 
         view.selectMenu(); //Starter menu loop.
     }
@@ -81,7 +73,6 @@ public class MainController {
                 customers.add(tmpCust);
                 new CustomerMapper().createNewCustomer(tmpCust);
             }
-            //fh.saveCustomersToFile(customers);
             break;
         }
 
@@ -105,8 +96,6 @@ public class MainController {
 
         orders.add(ordreMapper.createNewOrder(tmpOrder)); //Tilføjer objektet til db og derefter arrayet
         System.out.println(tmpOrder);
-
-        //fh.saveOrdersToFile(orders); //Gemmer ordren i ordrefilen.
 
         view.selectMenu();
     }
@@ -157,59 +146,4 @@ public class MainController {
         view.selectMenu();
     }
 
-    /*
-    public void generateStats() throws FileNotFoundException {
-        ArrayList<String> tmpStats = new ArrayList<>();
-
-        double totalRev = 0.0;
-        int[] taeller = new int[menucard.getMenu().size()];
-        String filePath = "Export/" + LocalDate.now().toString() + "-statistik.csv";
-
-
-        //NAVN - ANTAL SOLGTE - TOTAL OMSÆTNING
-        int counter=0;
-
-        if(fh.doesFileExist(filePath)){
-            for(String s:stats){
-                String[] data = s.split(";");
-                totalRev+= Double.parseDouble(data[2]);
-            }
-        }
-        for(Pizza pz:menucard.getMenu()){
-            int pzCount = taeller[pz.getNumber()-1];
-
-            String str = pz.getName() + ";" + pzCount + ";" + pzCount*pz.getPrice();
-
-            if(fh.doesFileExist(filePath)){ //Hvis filen allerede eksisterer, skal den nuværende data erstattes.
-
-
-                String[] data = stats.get(counter).split(";");
-                int antal = pzCount+Integer.parseInt(data[1]);
-                double pris = (pzCount*pz.getPrice()) + Double.parseDouble(data[2]);
-                str = pz.getName() + ";" + antal + ";" + pris; //erstatter str således den gamle data også bliver brugt.
-            }
-
-            for(Ordre o:orders){
-                if(!fh.doesFileExist(filePath)){ //Hvis filen ikke allerede eksisterer.
-                    totalRev += o.getPrice(); //Tilføjer hver ordrens værdi til en samlet sum.
-                }
-                for(Pizza p:o.getPizzas()){
-                    taeller[p.getNumber()-1]++;
-                }
-            }
-
-            tmpStats.add(str); //Tilføjer datarække til array
-            counter++;
-        }
-
-        //fh.saveStatsToFile(tmpStats); //Gemmer arrayet i en CSV fil, så det kan åbnes i f.eks. Excel
-        //fh.saveOrdersToFile(orders); //Gemmer alle ordre i en CSV fil.
-
-        System.out.printf("Total omsætning i dag: %.2f kr%n",totalRev);
-        //System.out.println("Statistik gemt: " + filePath+"\n");
-
-
-        view.selectMenu();
-    }
-     */
 }
