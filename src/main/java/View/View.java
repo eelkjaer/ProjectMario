@@ -3,63 +3,49 @@
  */
 package View;
 import java.util.Scanner;
-import Controller.MainController;
 
 public class View {
     private final Scanner input = new Scanner(System.in);
-    private final MainController ctrl;
 
-    public View(MainController control){
-        this.ctrl = control;
+
+    public View() {
     }
 
-    public void selectMenu(){
-        ctrl.refreshData();
-        printMainMenu(); //Printer oversigt med menupunkter.
+    public void printMsg(String msg){
+        System.out.println(msg);
+    }
+
+    public int selectMenu(boolean admin){
+        printMainMenu(admin); //Printer oversigt med menupunkter.
         int menuSelect = intInput("Dit valg: ");
-        switch (menuSelect){ //Switch til menupunkter.
-            case 1:
-                System.out.println("## Se menukort ##");
-                ctrl.seeMenucard();
-                break;
-            case 2:
-                System.out.println("## Ny ordre ##");
-                ctrl.newOrder();
-                break;
-            case 3:
-                System.out.println("## Ændre ordre ##");
-                ctrl.changeOrder();
-                break;
-            case 4:
-                System.out.println("## Se ordre ##");
-                ctrl.getOrders();
-                break;
-            case 5:
-                System.out.println("\n### PIZZA STATISTIK ###");
-                ctrl.generateStats();
-                break;
-            case 6:
-                System.exit(0); //Lukker applikationen helt.
-            default:
-                System.out.println(menuSelect + " findes ikke!");
-                selectMenu(); //Fortsætter loop hvis der vælges noget andet end mulighederne.
-        }
+        return menuSelect;
     }
 
-    private void printMainMenu(){
+    public void printMenuTitle(String title){
+        System.out.println("## " + title + " ##");
+    }
+
+    private void printMainMenu(boolean admin){
         System.out.println("\n#####################");
-        System.out.println("1) Se menu");
-        System.out.println("2) Opret ordre");
-        System.out.println("3) Luk ordre");
-        System.out.println("4) Se ordre");
-        System.out.println("5) Se statistik");
-        System.out.println("6) Afslut system");
+        if(admin){
+            System.out.println("1) Se menu");
+            System.out.println("2) Opret ordre");
+            System.out.println("3) Afslut ordre");
+            System.out.println("4) Se åbne ordre");
+            System.out.println("5) Se statistik");
+            System.out.println("6) Log ud");
+        } else {
+            System.out.println("1) Se menu");
+            System.out.println("2) Opret ordre");
+            System.out.println("3) Afslut ordre");
+            System.out.println("4) Log ud");
+        }
         System.out.println("#####################\n");
     }
 
     public int intInput(String inputRequired){
         System.out.print("\n" + inputRequired);
-        return input.nextInt();
+        return Integer.parseInt(input.nextLine());
     }
 
     public String strInput(String inputRequired){
@@ -67,9 +53,9 @@ public class View {
         return input.nextLine();
     }
 
-    protected double doubleInput(String inputRequired){
+    public double doubleInput(String inputRequired){
         System.out.print("\n" + inputRequired);
-        return input.nextDouble();
+        return Double.parseDouble(input.nextLine());
     }
 
 
