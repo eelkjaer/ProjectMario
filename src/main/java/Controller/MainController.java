@@ -197,8 +197,9 @@ public class MainController {
         String inStoreQ = view.strInput("Står kunden i butikken? (Ja/Nej): ").toLowerCase();
         boolean inStore = inStoreQ.equals("ja");
 
+        String createdBy = user.getName();
 
-        Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment); //Opretter midlertidigt ordre objekt.
+        Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment, createdBy); //Opretter midlertidigt ordre objekt.
 
 
         orders.add(ordreMapper.createNewOrder(tmpOrder)); //Tilføjer objektet til db og derefter arrayet

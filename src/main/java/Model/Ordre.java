@@ -17,8 +17,9 @@ public class Ordre {
     private ArrayList<Pizza> pizzas;
     private double price;
     private String comment;
+    private String createdBy;
 
-    public Ordre(boolean inStore, Customer customer, ArrayList<Pizza> pizzas, String comment) {
+    public Ordre(boolean inStore, Customer customer, ArrayList<Pizza> pizzas, String comment, String createdBy) {
         this.orderNumber = orderCounter;
         this.inStore = inStore;
         this.timestamp = calculateTime(this.inStore);
@@ -27,11 +28,12 @@ public class Ordre {
         this.isDone = false;
         this.price = calculatePrice(this.pizzas);
         this.comment = comment;
+        this.createdBy = createdBy;
         orderCounter++;
     }
 
     //From MySQL
-    public Ordre(int orderNumber, boolean inStore, boolean isDone, LocalDateTime timestamp, Customer customer, ArrayList<Pizza> pizzas, double price, String comment) {
+    public Ordre(int orderNumber, boolean inStore, boolean isDone, LocalDateTime timestamp, Customer customer, ArrayList<Pizza> pizzas, double price, String comment, String createdBy) {
         this.orderNumber = orderNumber;
         this.inStore = inStore;
         this.isDone = isDone;
@@ -40,6 +42,7 @@ public class Ordre {
         this.pizzas = pizzas;
         this.price = price;
         this.comment = comment;
+        this.createdBy = createdBy;
     }
 
     /*
@@ -105,6 +108,14 @@ public class Ordre {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     @Override

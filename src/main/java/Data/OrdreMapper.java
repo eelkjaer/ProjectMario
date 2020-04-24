@@ -27,6 +27,7 @@ public class OrdreMapper {
                     "orders.readyTime, " +
                     "orders.status, " +
                     "orders.comment, " +
+                    "orders.createdBy, " +
                     "orders.totalPrice, " +
                     "GROUP_CONCAT(DISTINCT ordersPizza.pizzaId SEPARATOR \",\") " +
                     "AS \"pizzaer\"\n" +
@@ -47,6 +48,7 @@ public class OrdreMapper {
                 isDone = status.equals("done");
                 double totalPrice = resultset.getDouble("orders.totalPrice");
                 String comment = resultset.getString("orders.comment");
+                String createdBy = resultset.getString("orders.createdBy");
 
                 String[] pizzaListe = resultset.getString("pizzaer").split(",");
                 ArrayList<Pizza> tmpPizzas = new ArrayList<>();
@@ -63,7 +65,7 @@ public class OrdreMapper {
                     }
                 }
 
-                Ordre ordre = new Ordre(orderId,inStore, isDone,readyTime,customer,tmpPizzas,totalPrice,comment);
+                Ordre ordre = new Ordre(orderId,inStore, isDone,readyTime,customer,tmpPizzas,totalPrice,comment,createdBy);
 
                 orders.add(ordre);
             }
@@ -82,12 +84,13 @@ public class OrdreMapper {
         String status = "working";
         String comment = ordre.getComment();
         double totalPrice = ordre.getPrice();
+        String createdBy = ordre.getCreatedBy();
 
 
         Connection connection = DBConnector.getInstance().getConnection();
         try {
             //Indsætter ordren i tabellen "Ordre"
-            String query = "INSERT INTO orders(pickup,customerId,readyTime,status,comment,totalPrice) VALUES (?,?,?,?,?,?)";
+            String query = "INSERT INTO orders(pickup,customerId,readyTime,status,comment,totalPrice, createdBy) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 
             statement.setBoolean(1,inStore);
@@ -96,6 +99,7 @@ public class OrdreMapper {
             statement.setString(4,status);
             statement.setString(5,comment);
             statement.setDouble(6,totalPrice);
+            statement.setString(7,createdBy);
             statement.executeUpdate();
             ResultSet tableKeys = statement.getGeneratedKeys();
             tableKeys.next();

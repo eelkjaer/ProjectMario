@@ -37,7 +37,7 @@ Pizza pizza2;
 
         pizzas.add(pizza1);
         pizzas.add(pizza2);
-        ordre = new Ordre(true,customer,pizzas,"done");
+        //ordre = new Ordre(true,customer,pizzas,"done");
 
     }
 
