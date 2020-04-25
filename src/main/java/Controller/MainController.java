@@ -67,22 +67,14 @@ public class MainController {
     }
 
     private boolean checkAdminLevel(){
-        if(user.getLevel() == 1){
-            return true;
-        } else {
-            return false;
-        }
+        return user.getLevel() == 1;
     }
 
     public void selectMenu(){
         refreshData();
         int menuSelect = view.selectMenu(checkAdminLevel()); //Starter menu loop.
 
-        if(checkAdminLevel()){
-            createMenu(menuSelect,true);
-        } else {
-            createMenu(menuSelect,false);
-        }
+        createMenu(menuSelect, checkAdminLevel());
     }
 
     public void createMenu(int menuSelect, boolean admin){

@@ -17,8 +17,7 @@ public class View {
 
     public int selectMenu(boolean admin){
         printMainMenu(admin); //Printer oversigt med menupunkter.
-        int menuSelect = intInput("Dit valg: ");
-        return menuSelect;
+        return intInput("Dit valg: ");
     }
 
     public void printMenuTitle(String title){
