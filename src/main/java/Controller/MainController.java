@@ -201,7 +201,6 @@ public class MainController {
 
         Ordre tmpOrder = new Ordre(inStore,tmpCust,tmpPizzaList,orderComment, createdBy); //Opretter midlertidigt ordre objekt.
 
-
         orders.add(ordreMapper.createNewOrder(tmpOrder)); //Tilføjer objektet til db og derefter arrayet
         System.out.println(tmpOrder);
 
@@ -256,11 +255,14 @@ public class MainController {
         System.out.println("Sorter efter: (Standard: Efter omsætning)");
         System.out.println("1) Efter omsætning");
         System.out.println("2) Efter antal solgte");
+        System.out.println("3) Efter medarbejder");
         int select = view.intInput("Indtast dit valg: ");
         if(select==1){
             ordreMapper.getPizzaStats("salg");
-        } else if (select==2){
+        } else if (select==2) {
             ordreMapper.getPizzaStats("antal");
+        } else if (select==3) {
+            ordreMapper.getPizzaStats("medarbejder");
         } else {
             ordreMapper.getPizzaStats("salg");
         }

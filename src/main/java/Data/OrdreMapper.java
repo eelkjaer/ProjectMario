@@ -146,37 +146,50 @@ public class OrdreMapper {
      */
     public void getPizzaStats(String sort){
         Connection connection = DBConnector.getInstance().getConnection();
-
-        if(!sort.equals("salg") || !sort.equals("antal")){
-            sort = "salg";
-        }
+        String query = "";
 
         try {
             Statement statement = connection.createStatement();
 
-            String query = "SELECT menucard.navn, ordersPizza.pizzaId as nummer, COUNT(ordersPizza.pizzaId) AS antal, menucard.pris * COUNT(ordersPizza.pizzaId) as salg\n" +
-                    "FROM ordersPizza\n" +
-                    "INNER JOIN menucard ON ordersPizza.pizzaId = menucard.id\n" +
-                    "GROUP BY pizzaId\n" +
-                    "ORDER BY " + sort + " DESC";
+            if(sort.equals("salg") || sort.equals("antal")) {
+                query = "SELECT menucard.navn, ordersPizza.pizzaId as nummer, COUNT(ordersPizza.pizzaId) AS antal, menucard.pris * COUNT(ordersPizza.pizzaId) as salg\n" +
+                        "FROM ordersPizza\n" +
+                        "INNER JOIN menucard ON ordersPizza.pizzaId = menucard.id\n" +
+                        "GROUP BY pizzaId\n" +
+                        "ORDER BY " + sort + " DESC";
+            } else if(sort.equals("medarbejder")){ //Antal pizzaer og omsætning pr. medarbejder
+                query = "SELECT users.name as Medarbejder, COUNT(orders.createdBy) AS AntalOrdre\n" +
+                        "FROM users\n" +
+                        "LEFT JOIN orders ON orders.createdBy = users.name\n" +
+                        "GROUP BY users.name\n" +
+                        "ORDER BY AntalOrdre DESC";
+            }
 
             ResultSet resultset = statement.executeQuery(query);
 
             double total = 0.0;
 
             while(resultset.next()) {
-                int nummer = resultset.getInt("nummer");
-                int antal = resultset.getInt("antal");
-                double pris = resultset.getDouble("salg");
-                String navn = resultset.getString("navn");
-                total += pris;
+                if(sort.equals("medarbejder")){
+                    String medarbejder = resultset.getString("Medarbejder");
+                    int antalOrdre = resultset.getInt("AntalOrdre");
 
-                System.out.print("(nr." + nummer + ") " + navn + " - " + antal + " stk solgt = " + pris + "kr\n");
+                    System.out.print(medarbejder + " - " + antalOrdre + " ordre\n");
+                } else {
+                    int nummer = resultset.getInt("nummer");
+                    int antal = resultset.getInt("antal");
+                    double pris = resultset.getDouble("salg");
+                    String navn = resultset.getString("navn");
+                    total += pris;
+
+                    System.out.print("(nr." + nummer + ") " + navn + " - " + antal + " stk solgt = " + pris + "kr\n");
+                }
             }
-            System.out.println(String.format("%nTotal omsætning: %.2f kr%n",total));
+            if(!sort.equals("medarbejder")){
+                System.out.println(String.format("%nTotal omsætning: %.2f kr%n",total));
+            }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
 }
