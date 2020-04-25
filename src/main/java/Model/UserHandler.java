@@ -6,8 +6,10 @@ public class UserHandler {
 
     public User login(String usr, String psw){
         return mapper.checkLogin(usr,psw);
+    }
 
-
+    public User register(User user){
+        return mapper.createUser(user);
     }
 
 }

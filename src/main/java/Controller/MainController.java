@@ -18,10 +18,9 @@ public class MainController {
     private final Menucard menucard = new Menucard();
     private final UserHandler users = new UserHandler();
     private final OrdreMapper ordreMapper = new OrdreMapper();
+    private final MenuMapper menuMapper = new MenuMapper();
 
     private boolean isLoggedIn = false;
-
-    //TODO: Dialog til at lave en pizza og tilføje til menuen
 
 
     public MainController() {
@@ -67,7 +66,7 @@ public class MainController {
     }
 
     private boolean checkAdminLevel(){
-        return user.getLevel() == 1;
+        return user.isAdmin();
     }
 
     public void selectMenu(){
@@ -84,18 +83,24 @@ public class MainController {
                     seeMenucard();
                     break;
                 case 2:
-                    newOrder();
+                    newPizza();
                     break;
                 case 3:
-                    changeOrder();
+                    newOrder();
                     break;
                 case 4:
-                    getOrders();
+                    changeOrder();
                     break;
                 case 5:
-                    generateStats();
+                    getOrders();
                     break;
                 case 6:
+                    generateStats();
+                    break;
+                case 7:
+                    newUser();
+                    break;
+                case 8:
                     userLogOff();
                     //System.exit(0); //Lukker applikationen helt.
                 default:
@@ -131,9 +136,46 @@ public class MainController {
         selectMenu(); //Viser user menuen igen.
     }
 
-    /*
-     * Opretter nyt ordre objekt og tilføjer til ordrelisten og ordre filen.
-     */
+    public void newPizza(){
+        view.printMenuTitle("Ny pizza");
+
+        //Pizza navn
+        String pizzaName = "";
+        while(pizzaName.isEmpty()) {
+            pizzaName = view.strInput("Pizzaens navn: ");
+        }
+        //Pizza fyld
+        ArrayList<String> tmpPizzaFyld = new ArrayList<>();
+        System.out.println("Indtast pizza fyld. Afsluttes med 0");
+        boolean istopping = true;
+        while(istopping){ //Loop indtil der tastes 0
+            String fyld = view.strInput("Fyld: ");
+            if(fyld.equals("0")){ //Afslutter loopet
+                if(!tmpPizzaFyld.isEmpty()){ //Sikre at der minimum er valgt 1 pizza.
+                    istopping = false;
+                } else {
+                    System.out.println("Der er ikke indtastet noget fyld.");
+                }
+            } else{
+                tmpPizzaFyld.add(fyld);
+            }
+        }
+
+        //Pizza pris
+        double pizzaPrice;
+        pizzaPrice = view.doubleInput("Pizzaens pris: ");
+
+        Pizza tmpPizza = new Pizza(pizzaName,pizzaPrice,tmpPizzaFyld); //Opretter midlertidigt ordre objekt.
+
+
+        menucard.getMenu().add(menuMapper.createNewPizza(tmpPizza));
+
+        view.printMsg(tmpPizza.getName() + " er tilføjet!");
+
+        selectMenu();
+    }
+
+
     public void newOrder(){
         view.printMenuTitle("Ny ordre");
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
@@ -154,7 +196,10 @@ public class MainController {
             }
         }
 
-        int cNum = view.intInput("Indtast kundenummer (Tlf): ");
+        int cNum = 0;
+        while(cNum <= 0) {
+            cNum = view.intInput("Indtast kundenummer (Tlf): ");
+        }
 
         Customer tmpCust = null;
         for(Customer c: customers){
@@ -186,7 +231,10 @@ public class MainController {
          * Hvis kunden afhenter ordren ligges der 1 time til nuværende klokkeslæt.
          * Såfremt kunden allerede står i butikken, ligges der 15 minutter til.
          */
-        String inStoreQ = view.strInput("Står kunden i butikken? (Ja/Nej): ").toLowerCase();
+        String inStoreQ = "";
+        while(inStoreQ.isEmpty()) {
+            inStoreQ = view.strInput("Står kunden i butikken? (Ja/Nej): ").toLowerCase();
+        }
         boolean inStore = inStoreQ.equals("ja");
 
         String createdBy = user.getName();
@@ -258,6 +306,42 @@ public class MainController {
         } else {
             ordreMapper.getPizzaStats("salg");
         }
+
+        selectMenu();
+    }
+
+    public void newUser(){
+        view.printMenuTitle("Ny bruger");
+
+        //Sætter username
+        String userName = "";
+        while(userName.isEmpty()) {
+            userName = view.strInput("Indtast brugernavn: ");
+        }
+
+        //Sætter fornavn
+        String firstName = "";
+        while(firstName.isEmpty()) {
+            firstName = view.strInput("Indtast fornavn: ");
+        }
+
+        //Kodeord
+        String password = "";
+        while(password.isEmpty()) {
+            password = view.strInput("Indtast kodeord: ");
+        }
+
+        //Er bruger admin?
+        String isAdminQ = "";
+        while(isAdminQ.isEmpty()) {
+            isAdminQ = view.strInput("Er brugeren administrator? (Nej/Ja): ").toLowerCase();
+        }
+        boolean isAdmin = isAdminQ.equals("ja");
+
+        User tmpUser = new User(userName,password,firstName,isAdmin);
+
+        users.register(tmpUser);
+        view.printMsg(tmpUser.getName() + " er tilføjet!");
 
         selectMenu();
     }

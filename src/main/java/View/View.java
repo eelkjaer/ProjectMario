@@ -28,11 +28,13 @@ public class View {
         System.out.println("\n#####################");
         if(admin){
             System.out.println("1) Se menu");
-            System.out.println("2) Opret ordre");
-            System.out.println("3) Afslut ordre");
-            System.out.println("4) Se åbne ordre");
-            System.out.println("5) Se statistik");
-            System.out.println("6) Log ud");
+            System.out.println("2) Opret pizza");
+            System.out.println("3) Opret ordre");
+            System.out.println("4) Afslut ordre");
+            System.out.println("5) Se åbne ordre");
+            System.out.println("6) Se statistik");
+            System.out.println("7) Opret bruger");
+            System.out.println("8) Log ud");
         } else {
             System.out.println("1) Se menu");
             System.out.println("2) Opret ordre");

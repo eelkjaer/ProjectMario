@@ -4,13 +4,13 @@ public class User {
     String username;
     String password;
     String name;
-    int level; //1 = mario, 2 = alfonso
+    boolean isAdmin;
 
-    public User(String username, String password, String name, int level){
+    public User(String username, String password, String name, boolean isAdmin){
         this.username = username;
         this.password = password;
         this.name = name;
-        this.level = level;
+        this.isAdmin = isAdmin;
     }
 
     public String getUsername() {
@@ -21,7 +21,11 @@ public class User {
         return name;
     }
 
-    public int getLevel() {
-        return level;
+    public String getPassword(){
+        return password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 }

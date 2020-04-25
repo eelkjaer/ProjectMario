@@ -22,7 +22,7 @@ public class UserMapper {
 
             if(result.next()){
                 //korrekt login
-                tmpUser = new User(username,password,result.getString("name"),result.getInt("level"));
+                tmpUser = new User(username,password,result.getString("name"),result.getBoolean("admin"));
                 return tmpUser;
             } else {
                 //forkert login
@@ -34,5 +34,26 @@ public class UserMapper {
         }
 
         return null;
+    }
+
+    public User createUser(User user){
+        Connection connection = DBConnector.getInstance().getConnection();
+        try {
+            //Indsætter ordren i tabellen "menucard"
+            String query = "INSERT INTO users(username, name, password, admin) VALUES (?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1,user.getUsername());
+            statement.setString(2,user.getName());
+            statement.setString(3,user.getPassword());
+            statement.setBoolean(4,user.isAdmin());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return user;
     }
 }

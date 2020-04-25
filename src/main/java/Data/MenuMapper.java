@@ -5,10 +5,8 @@ package Data;
 
 import Model.Pizza;
 import Util.DBConnector;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MenuMapper {
@@ -20,7 +18,6 @@ public class MenuMapper {
 
         return pizzas;
     }
-
 
     private ArrayList<Pizza> getAllPizzas(){
         ArrayList<Pizza> pizzas = new ArrayList<>();
@@ -53,5 +50,45 @@ public class MenuMapper {
             System.out.println("Error: " + e.getMessage());
         }
         return pizzas;
+    }
+
+    public Pizza createNewPizza(Pizza pizza){
+        int pizzaNumber;
+        String pizzaName = pizza.getName();
+        double pizzaPrice = pizza.getPrice();
+        String[] pizzaFilling = pizza.getFilling();
+
+
+        Connection connection = DBConnector.getInstance().getConnection();
+        try {
+            //Indsætter ordren i tabellen "menucard"
+            String query = "INSERT INTO menucard(navn, pris) VALUES (?,?)";
+            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1,pizzaName);
+            statement.setDouble(2,pizzaPrice);
+
+            statement.executeUpdate();
+            ResultSet tableKeys = statement.getGeneratedKeys();
+            tableKeys.next();
+            pizzaNumber = tableKeys.getInt(1);
+            pizza.setNumber(pizzaNumber);
+
+            //Indsætter fyldet til pizzaen i samføjningstabellen "menuFilling"
+            for(int i=0; i < pizzaFilling.length; i++){
+                String filling = pizzaFilling[i];
+                String query2 = "INSERT INTO menuFilling(pizzaId,topping) VALUES (?,?)";
+                PreparedStatement statement2 = connection.prepareStatement(query2);
+
+                statement2.setInt(1,pizzaNumber);
+                statement2.setString(2,filling);
+                statement2.execute();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return pizza;
     }
 }

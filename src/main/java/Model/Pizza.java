@@ -3,6 +3,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -17,7 +18,13 @@ public class Pizza {
         this.name = name;
         this.price = price;
         this.filling = filling;
+    }
 
+    public Pizza(String name, double price, ArrayList<String> filling){
+        this.name = name;
+        this.price = price;
+        this.filling = new String[filling.size()];
+        this.filling = filling.toArray(this.filling);
     }
 
     public void setNumber(int number) {
@@ -34,6 +41,10 @@ public class Pizza {
 
     public void setFilling(String[] filling) {
         this.filling = filling;
+    }
+
+    public String[] getFilling(){
+        return this.filling;
     }
 
     public int getNumber(){
