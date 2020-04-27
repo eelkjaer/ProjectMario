@@ -165,7 +165,7 @@ public class MainController {
         double pizzaPrice;
         pizzaPrice = view.doubleInput("Pizzaens pris: ");
 
-        Pizza tmpPizza = new Pizza(pizzaName,pizzaPrice,tmpPizzaFyld); //Opretter midlertidigt ordre objekt.
+        Pizza tmpPizza = new Pizza(pizzaName,pizzaPrice,tmpPizzaFyld); //Opretter midlertidigt pizza objekt.
 
 
         menucard.getMenu().add(menuMapper.createNewPizza(tmpPizza));
