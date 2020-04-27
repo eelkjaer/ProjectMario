@@ -19,18 +19,10 @@ public class MainController {
     private final UserHandler users = new UserHandler();
     private final OrdreMapper ordreMapper = new OrdreMapper();
     private final MenuMapper menuMapper = new MenuMapper();
-
     private boolean isLoggedIn = false;
-
 
     public MainController() {
         refreshData();
-    }
-
-    public void refreshData(){
-        customers = new CustomerMapper().getAllCustomers();
-        menucard.setMenucard(new MenuMapper().getMenucard());
-        orders = ordreMapper.getAllOrders(customers, menucard.getMenu());
     }
 
     public void runApplication(){
@@ -39,7 +31,19 @@ public class MainController {
         userLogin();
     }
 
-    public void userLogin(){
+    /*
+     * Refresher arrays og objekter
+     */
+    private void refreshData(){
+        customers = new CustomerMapper().getAllCustomers();
+        menucard.setMenucard(new MenuMapper().getMenucard());
+        orders = ordreMapper.getAllOrders(customers, menucard.getMenu());
+    }
+
+    /*
+     * Login dialog.
+     */
+    private void userLogin(){
         view.printMsg("Velkommen til Just-Pizza!");
         while(!isLoggedIn){
             String username = view.strInput("Indtast brugernavn: ");
@@ -58,7 +62,11 @@ public class MainController {
 
     }
 
-    public void userLogOff(){
+    /*
+     * Logger brugeren ud af systemet og gør klar til ny session
+     * clearScreen() virker ikke i Intellij.
+     */
+    private void userLogOff(){
         clearScreen();
         user = null;
         isLoggedIn = false;
@@ -69,14 +77,18 @@ public class MainController {
         return user.isAdmin();
     }
 
-    public void selectMenu(){
+    private void selectMenu(){
         refreshData();
         int menuSelect = view.selectMenu(checkAdminLevel()); //Starter menu loop.
 
         createMenu(menuSelect, checkAdminLevel());
     }
 
-    public void createMenu(int menuSelect, boolean admin){
+    /*
+     * Switch til menupunkter.
+     * Forskel på admin og alm. bruger
+     */
+    private void createMenu(int menuSelect, boolean admin){
         if(admin){
             switch (menuSelect){ //Switch til menupunkter.
                 case 1:
@@ -136,6 +148,9 @@ public class MainController {
         selectMenu(); //Viser user menuen igen.
     }
 
+    /*
+     * Oprettelse af ny pizza
+     */
     public void newPizza(){
         view.printMenuTitle("Ny pizza");
 
@@ -175,7 +190,9 @@ public class MainController {
         selectMenu();
     }
 
-
+    /*
+     * Oprettelse af ny ordre
+     */
     public void newOrder(){
         view.printMenuTitle("Ny ordre");
         ArrayList<Pizza> tmpPizzaList = new ArrayList<>();
@@ -264,7 +281,7 @@ public class MainController {
     }
 
     /*
-     * Viser alle ordre på skærmen.
+     * Viser alle åbne ordre på skærmen.
      */
     public void getOrders(){
         view.printMenuTitle("Se åbne ordre");
@@ -310,6 +327,10 @@ public class MainController {
         selectMenu();
     }
 
+    /*
+     * Oprettelse af ny bruger
+     * Admin giver rettighed til flere menupunkter
+     */
     public void newUser(){
         view.printMenuTitle("Ny bruger");
 
