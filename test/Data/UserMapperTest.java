@@ -4,11 +4,8 @@
 package Data;
 
 import Util.DBConnector;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 import Model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
