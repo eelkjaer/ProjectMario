@@ -25,7 +25,6 @@ public class UserMapper {
                 tmpUser = new User(username,password,result.getString("name"),result.getBoolean("admin"));
                 return tmpUser;
             } else {
-                //forkert login
                 return null;
             }
 
@@ -55,5 +54,19 @@ public class UserMapper {
         }
 
         return user;
+    }
+
+    protected void resetAutoIncrement(){
+        Connection connection = DBConnector.getInstance().getConnection();
+        try {
+            //Indsætter ordren i tabellen "menucard"
+            String query = "ALTER TABLE `users` AUTO_INCREMENT = 1";
+            Statement statement = connection.prepareStatement(query);
+
+            statement.execute(query);
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
