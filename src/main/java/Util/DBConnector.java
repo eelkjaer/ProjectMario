@@ -14,9 +14,9 @@ public class DBConnector {
 
     private final String serverIP = "104.248.135.65";
     private final String serverPort = "3306";
-    private final String serverUsr = "java";
-    private final String serverPsw = "java";
-    private final String serverDb = "mariodb";
+    private final String serverUsr = "";
+    private final String serverPsw = "";
+    private final String serverDb = "";
 
     private DBConnector() {
         try {
