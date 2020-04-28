@@ -1,0 +1,149 @@
+@startuml
+
+Class MainController{
+-user:User
+-orders:ArrayList<Ordre>
+-customers:ArrayList<Customer>
+-view:View
+-menucard:Menucard
+-user:UserHandler
+-ordreMapper:OrdreMapper
+-menuMapper:MenuMapper
+-isLoggedIn:boolean
+
++MainController();
++runApplication():
+-refreshData();
+-userLogin();
+-userLogOff();
+-checkAdminLevel();
+-selectMenu();
+-createMenu(int menuSelect, boolean admin);
++seeMenucard();
++newPizza();
++newOrder();
++changeOrder();
++getOrders();
++generateStats();
++newUser();
+-clearScreen();
+}
+class OrdreMapper{
++ArrayList<Ordre> getAllOrders(ArrayList<Customer> customers, ArrayList<Pizza> pizzas);
++Ordre createNewOrder(Ordre ordre);
++setAsDone(Ordre ordre)
+getPizzaStats(String sort)
+}
+ class CustomerMapper{
++ArrayList<Customer> getAllCustomers(); void
++allCustomers : ArrayList<Customer>
+}
+Class View{
+-input Scanner
++View();
++printMsg(String msg); void
++selectMenu(boolean admin); int
++printMenuTitle(String title); void
+-printMainMenu(boolean admin); void
++intInput(String inputRequired); int
++strInput(String inputRequired); String
++doubleInput(String inputRequired); double
+}
+class Menucard{
+-fh : FileHandler
++setMenucard(ArrayList<Pizza> pizzas); void
++printMenu(); void
++getPizzaByld(int); Pizza
++createMenuCard(String); void
+-menucard ArrayList<Pizza>
++menu ArrayList<Pizza>
+}
+Class MenuMapper{
+-getAllPizzas(); ArrayList<Pizza>
++createNewPizza(Pizza); Pizza
+}
+Class Ordre{
+-orderCounter ; int
+--
++Ordre(boolean, Custimer, ArrayList<Pizza>, String, String)
++Ordre(int, boolean, LocalDateTime, Customer, ArrayList<Pizza>, double, String, String)
+--
++calculatePrice(ArrayList<Pizza>)  double
++calculateTime(boolean) LocalDateTime
++toString() String
+--
++comment : String
++timestamp : LocalDateTime
+#orderNumber : int
+#done : boolean
++customer : Customer
++pizzas : ArrayList<Pizza>
++price : double
++inStore : boolean
+#createdBy : String
+}
+class DBConnector{
+-instance : DBConnector
+-serverIP : String
+-ServerPort : String
+-serverUsr : String
+-serverPsw : String
+-serverDB : String
+--
+-DBConnector()
+--
++getInstance() : DBConnector
+--
++connection : Connection
+}
+class Pizza {
++Pizza(int, String, double, String[])
++Pizza(String, double, ArrayList<String>)
+--
++toString() : String
+--
+#name : String
++fillingFormatted : String
+#filling : String[]
+#price : double
+#number : int
+}
+
+class Customer{
++Customer(String, int, String)
++Customer()
++Customer(String, int, String, int)
++Customer(int, String, int, String, int)
+--
++getCustomerById(int, ArrayList<Customer>) : Customer
++addNewOrdre() : void
++equals(Object) : boolean
++hashCode() : int
++toString() : String
+--
+#name : String
+#id : int
+#phoneNo : int
+#mail : String
+#prevOrder : int
+}
+
+OrdreMapper ..> Ordre
+Menucard ..> MenuMapper
+MenuMapper ..> Pizza
+OrdreMapper ..> Customer
+CustomerMapper ..> Customer
+CustomerMapper ..> DBConnector
+OrdreMapper ..> DBConnector
+MenuMapper ..> DBConnector
+Pizza "*" *--> "1" Ordre
+Customer "1" *--> "*" Ordre
+MainController "1" *--> "1" Customer : create
+MainController "1" *--> "1" Pizza : create
+MainController "1" *--> "*" Ordre : create
+MainController "1" *--> "1" Menucard : create
+MainController "1" *--> "1" View : create
+MainController ..> CustomerMapper : create
+MainController "1" --*  "1" OrdreMapper : create
+
+@enduml
